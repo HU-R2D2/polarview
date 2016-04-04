@@ -1,6 +1,6 @@
 #include "../include/DistanceReading.hpp"
 
-DistanceReading::DistanceReading(Distance dist, ResultType type) {
+DistanceReading::DistanceReading(Distance dist, ResultType type) : distance(dist), type(type) {
 	
 }
 
