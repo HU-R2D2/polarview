@@ -3,25 +3,26 @@
 
 
 TEST(GetResultType, GetResultType) {
-	ResultType didnt = DIDNT_CHECK;
-	ResultType range = OUT_OF_RANGE;
-	ResultType check = CHECKED;
+	ResultType didnt = ResultType::DIDNT_CHECK;
+	ResultType range = ResultType::OUT_OF_RANGE;
+	ResultType check = ResultType::CHECKED;
 	
-	Distance distance();
+	Distance dist;
 	
-	DistanceReading a(DistanceReading(distance, didnt));
-	DistanceReading b(DistanceReading(distance, range));
-	DistanceReading c(DistanceReading(distance, check));
+	DistanceReading a(DistanceReading(dist, didnt));
+	DistanceReading b(DistanceReading(dist, range));
+	DistanceReading c(DistanceReading(dist, check));
 	
-	EXPECT_EQ(a->GetResultType(), DIDNT_CHECK);
-	EXPECT_EQ(b->GetResultType(), OUT_OF_RANGE);
-	EXPECT_EQ(c->GetResultType(), CHECKED);
+	EXPECT_EQ(a.get_result_type(), ResultType::DIDNT_CHECK);
+	EXPECT_EQ(b.get_result_type(), ResultType::OUT_OF_RANGE);
+	EXPECT_EQ(c.get_result_type(), ResultType::CHECKED);
 }
 
 /*
 TEST(GetDistance, GetDistance) {
-	DistanceReading a(DistanceReading(, DIDNT_CHECK));
+	Distance dist;
+	DistanceReading a(DistanceReading(dist, ResultType::DIDNT_CHECK));
 	
-	EXPECT_EQ(a->GetDistance(), );
+	EXPECT_EQ(a.get_distance(), dist);
 }
 */
