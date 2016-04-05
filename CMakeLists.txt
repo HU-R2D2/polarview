@@ -15,5 +15,5 @@ link_directories(../deps/gtest-1.7.0/src)
 ADD_LIBRARY(gtest ../deps/gtest-1.7.0/src/gtest-all.cc)
 ADD_LIBRARY(gtest_main ../deps/gtest-1.7.0/src/gtest_main.cc)
 
-add_executable(polarview_test ${GTEST} ${SOURCES_GTEST})
-target_link_libraries(polarview_test gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})
+add_executable(distancereading_test ${GTEST} ${SOURCES_GTEST})
+target_link_libraries(distancereading_test gtest gtest_main ${CMAKE_THREAD_LIBS_INIT})

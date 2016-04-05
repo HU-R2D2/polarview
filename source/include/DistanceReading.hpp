@@ -2,6 +2,7 @@
 #define DISTANCEREADING_H
 
 #include "../../../adt/source/include/Distance.hpp"
+#include "../../../adt/source/include/Length.hpp"
 
 enum class ResultType {
 	DIDNT_CHECK,

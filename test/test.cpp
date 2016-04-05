@@ -19,11 +19,11 @@ TEST(GetResultType, GetResultType) {
 }
 
 
-/*
 TEST(GetDistance, GetDistance) {
-	Distance dist;
-	//DistanceReading a = DistanceReading(dist, ResultType::DIDNT_CHECK);
+	Distance dist1;
+	Distance dist2(4 * Length::METER, 5 * Length::METER, 6 * Length::METER);
+	DistanceReading a = DistanceReading(dist1, ResultType::DIDNT_CHECK);
 	
-	//EXPECT_EQ(a.get_distance(), dist);
+	EXPECT_EQ(a.get_distance(), dist1);
+	EXPECT_NE(a.get_distance(), dist2);
 }
-*/
