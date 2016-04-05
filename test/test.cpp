@@ -31,8 +31,8 @@ TEST(GetDistance, GetDistance) {
 	DistanceReading a(DistanceReading(dist1, ResultType::DIDNT_CHECK));
 	
 	std::cout << a.get_distance() << std::endl;
-	std::cout << dist1 << std::endl;
+	//std::cout << dist1 << std::endl;
 	
 	EXPECT_EQ(a.get_distance(), dist1);
-	EXPECT_NE(a.get_distance(), dist2);
+	//EXPECT_NE(a.get_distance(), dist2);
 }

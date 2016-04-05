@@ -18,8 +18,8 @@ void DistanceReading::set_distance(Distance d) {
 	this->distance = d;
 }
 
-Distance DistanceReading::get_distance() {
-	return this->distance;
+Distance & DistanceReading::get_distance() {
+	return distance;
 }
 
 bool operator==(const Distance lhs, const Distance rhs){

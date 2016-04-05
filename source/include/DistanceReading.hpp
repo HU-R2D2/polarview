@@ -50,7 +50,7 @@ public:
 	 \param
 	 \return Distance distance
 	*/
-	Distance get_distance();
+	Distance & get_distance();
 };
 
 #endif // DISTANCEREADING_H
