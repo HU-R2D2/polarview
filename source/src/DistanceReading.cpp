@@ -21,3 +21,8 @@ void DistanceReading::set_distance(Distance d) {
 Distance DistanceReading::get_distance() {
 	return this->distance;
 }
+
+bool operator==(Distance lhs, Distance rhs){
+	Distance offset(lhs / 100);
+	return ((lhs -= offset) < rhs) & (rhs < (lhs += offset));
+}
