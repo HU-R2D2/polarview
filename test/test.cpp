@@ -12,27 +12,52 @@ TEST(GetResultType, GetResultType) {
 	ResultType range = ResultType::OUT_OF_RANGE;
 	ResultType check = ResultType::CHECKED;
 	
-	Distance dist;
+	Length len;
 	
-	DistanceReading a(DistanceReading(dist, didnt));
-	DistanceReading b(DistanceReading(dist, range));
-	DistanceReading c(DistanceReading(dist, check));
+	DistanceReading a(DistanceReading(len, didnt));
+	DistanceReading b(DistanceReading(len, range));
+	DistanceReading c(DistanceReading(len, check));
 }
 
-//! Test get_distance()
+//! Test set_length()
 /*!
- Test case for the get_distance() function
- Create a DistanceReading object and compare it's Distance against an empty
- Distance object. Then compare it against a filled Distance object
+ Test case for the set_length() function
+ Create a DistanceReading object and get it's length object. Check if this length is within range of another length.
+ */
+TEST(SetDistance, SetDistance) {
+	Length len1(200);
+	Length len2(200);
+	
+	DistanceReading a(DistanceReading(len2, ResultType::DIDNT_CHECK));
+	Length tempmax(a.get_length());
+	
+	const Length offset(len1 / (1000 * 1000 * 1000)); // Extremely precise offset for measurement
+	
+	// Lengths are both 200, so in range
+	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
+	
+	//! Set the length to a different value
+	a.set_length(201);
+	tempmax = a.get_length();
+	
+	//! Length is no longer in range of 200, so it should be false
+	EXPECT_FALSE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
+	
+}
+
+//! Test get_length()
+/*!
+ Test case for the get_length() function
+ Create a DistanceReading object and get it's length object. Check if this length is within range of another length.
  */
 TEST(GetDistance, GetDistance) {
-	Distance dist1;
-	Distance dist2(4 * Length::METER, 5 * Length::METER, 6 * Length::METER);
-	DistanceReading a(DistanceReading(dist1, ResultType::DIDNT_CHECK));
+	Length len1(200);
+	Length len2(200.01);
 	
-	std::cout << a.get_distance() << std::endl;
-	//std::cout << dist1 << std::endl;
+	DistanceReading a(DistanceReading(len2, ResultType::DIDNT_CHECK));
+	Length tempmax(a.get_length());
 	
-	EXPECT_EQ(a.get_distance(), dist1);
-	//EXPECT_NE(a.get_distance(), dist2);
+	const Length offset(len1 / 10000);
+	
+	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 }

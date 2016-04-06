@@ -1,7 +1,7 @@
 #include "../include/DistanceReading.hpp"
 
-DistanceReading::DistanceReading(Distance dist, ResultType type) :
-	distance(dist), type(type)
+DistanceReading::DistanceReading(Length len, ResultType type) :
+	length(len), type(type)
 {
 	
 }
@@ -14,18 +14,10 @@ ResultType DistanceReading::get_result_type() {
 	return this->type;
 }
 
-void DistanceReading::set_distance(Distance d) {
-	this->distance = d;
+void DistanceReading::set_length(Length l) {
+	this->length = l;
 }
 
-Distance & DistanceReading::get_distance() {
-	return distance;
-}
-
-bool operator==(const Distance lhs, const Distance rhs){
-	Distance tempmin(lhs);
-	Distance tempmax(rhs);
-	
-	const Distance offset(tempmin / 100);
-	return ((tempmin -= offset) < tempmax) & (tempmax < (tempmin += offset));
+Length & DistanceReading::get_length() {
+	return length;
 }

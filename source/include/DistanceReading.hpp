@@ -1,7 +1,6 @@
 #ifndef DISTANCEREADING_H
 #define DISTANCEREADING_H
 
-#include "../../../adt/source/include/Distance.hpp"
 #include "../../../adt/source/include/Length.hpp"
 
 enum class ResultType {
@@ -13,12 +12,12 @@ enum class ResultType {
 class DistanceReading {
 	
 private:
-	Distance distance;
+	Length length;
 	ResultType type;
 	
 public:
 	//! DistanceReading constructor
-	DistanceReading(Distance dist, ResultType type);
+	DistanceReading(Length len, ResultType type);
 	
 	//! set_result_type
 	/*!
@@ -36,21 +35,21 @@ public:
 	 */
 	ResultType get_result_type();
 	
-	//! set_distance
+	//! set_length
 	/*!
-	 Setter for the Distance object
-	 \param Distance
+	 Setter for the Length object
+	 \param Length
 	 \return
 	 */
-	void set_distance(Distance d);
+	void set_length(Length l);
 	
-	//! get_distance
+	//! get_length
 	/*!
-	 Getter for the Distance object
+	 Getter for the Length object
 	 \param
-	 \return Distance distance
+	 \return Length length
 	*/
-	Distance & get_distance();
+	Length & get_length();
 };
 
 #endif // DISTANCEREADING_H
