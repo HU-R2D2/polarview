@@ -19,10 +19,6 @@ void MapPolarView::rotate(int angle){
     }
 }
 
-std::map<int, DistanceReading> & MapPolarView::get_distances() {
-    return readings;
-}
-
 double MapPolarView::match(MapPolarView v) {
     int c = 0;
     for(int i = 0; i < 360; i++) {
@@ -37,6 +33,31 @@ double MapPolarView::match(MapPolarView v) {
     }
     return (c/360)*100;
 }
+
+std::tuple<int, double> MapPolarView::find_best_match(MapPolarView v){
+    int bestRotation;
+    double bestScale;
+    double bestMatch;
+    std::map<int, DistanceReading> readingsBackup = readings;
+    for(double d = 0.0; d < 2 ; d+=0.1){
+        scale(d+0.1);
+        std::cout << d << std::endl;
+        for(int i = 0; i < 360; i++){
+            if(match(v) > bestMatch){
+                bestScale = d;
+                bestRotation = i;
+            }
+            rotate(1);
+        }
+        readings = readingsBackup;
+    }
+    return std::tuple<int, double>(bestRotation, bestScale);
+}
+
+std::map<int, DistanceReading> & MapPolarView::get_distances() {
+    return readings;
+}
+
 
     // std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
 

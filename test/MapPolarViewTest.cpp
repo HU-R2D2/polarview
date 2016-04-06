@@ -70,3 +70,10 @@ TEST(MapPolarView, get_distances) {
 //
 //     EXPECT_EQ(v.match(w), 50.0);
 // }
+
+TEST(MapPolarView, find_best_match){
+    MapPolarView mpv = MapPolarView();
+    MapPolarView pv = MapPolarView();
+
+    mpv.find_best_match(pv);
+}
