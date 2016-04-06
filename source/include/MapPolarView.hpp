@@ -36,10 +36,10 @@ public:
 	//virtual std::map<Angle, DistanceReading> get_distances() = 0;
 
 	//Multiplies the distances with a given fraction
-	// MapPolarView operator*(double frac);
+	MapPolarView operator*(double frac);
 
 	//Divides the distances with a given fraction
-	// MapPolarView operator/(double frac);
+	MapPolarView operator/(double frac);
 
 	//Adds 2 ArrayPolarviews together. This does not add
 	//two values together but rather 'merges' the two PolarViews

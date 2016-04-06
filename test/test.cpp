@@ -86,7 +86,17 @@ TEST(GetDistance, GetDistance) {
 
 //MapPolarView TESTING SECTION -------------------------------------------------
 TEST(Polarview, Constructor){
-	MapPolarView();
+	MapPolarView mpv = MapPolarView();
+}
+
+TEST(Polarview, Multiplication){
+	MapPolarView mpv = MapPolarView();
+	mpv = mpv * 2;
+}
+
+TEST(Polarview, Dividing){
+	MapPolarView mpv = MapPolarView();
+	mpv = mpv / 2;
 }
 
 

@@ -19,19 +19,21 @@ MapPolarView::MapPolarView(){
 
 	//std::map<Angle, DistanceReading> get_distance() = 0;
 
-// MapPolarView MapPolarView::operator*(double frac){
-	// for(int i = 0; i < 360; i++){
-		// DistanceReading & temp = readings[i];
-		// temp.set_distance(temp.get_distance() * frac);
-	// }
-// }
+MapPolarView MapPolarView::operator*(double frac){
+	for(int i = 0; i < 360; i++){		
+		DistanceReading & temp = readings.at(i);
+		temp.set_length(temp.get_length() * frac);
+	}
+	return (*this);
+}
 	
-// MapPolarView MapPolarView::operator/(double frac){
-	// for(int i = 0; i < 360; i++){
-		// DistanceReading & temp = readings[i];
-		// temp.set_distance(temp.get_distance() / frac);
-	// }
-//}
+MapPolarView MapPolarView::operator/(double frac){
+	for(int i = 0; i < 360; i++){
+		DistanceReading & temp = readings.at(i);
+		temp.set_length(temp.get_length() / frac);
+	}
+	return (*this);
+}
 
 // At the moment it assumes both PolarViews have the same starting point
 // MapPolarView MapPolarView::operator+(MapPolarView v){
