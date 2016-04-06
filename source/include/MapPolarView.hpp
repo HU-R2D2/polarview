@@ -43,6 +43,9 @@ public:
 	MapPolarView operator+=(MapPolarView v);
 	MapPolarView operator+(MapPolarView v);
 
+	void add_distancereading(int angle, Length len, DistanceReading::ResultType type);
+	void add_distancereading(int angle, DistanceReading dist);
+
 private:
 	std::map <int, DistanceReading> readings;
 
