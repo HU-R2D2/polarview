@@ -1,5 +1,5 @@
-#ifndef _ARRAYPOLARVIEW_H
-#define _ARRAYPOLARVIEW_H
+#ifndef _MAPPOLARVIEW_H
+#define _MAPPOLARVIEW_H
 
 #include "DistanceReading.hpp"
 #include <map>
@@ -36,18 +36,18 @@ public:
 	//virtual std::map<Angle, DistanceReading> get_distances() = 0;
 
 	//Multiplies the distances with a given fraction
-	//MapPolarView operator*(double frac);
+	// MapPolarView operator*(double frac);
 
 	//Divides the distances with a given fraction
-	//MapPolarView operator/(double frac);
+	// MapPolarView operator/(double frac);
 
 	//Adds 2 ArrayPolarviews together. This does not add
 	//two values together but rather 'merges' the two PolarViews
-	//MapPolarView operator+(MapPolarView v);
+	// MapPolarView operator+(MapPolarView v);
 
 private:
 	std::map <int, DistanceReading> readings;
 
 };
 
-#endif //_ARRAYPOLARVIEW_H
+#endif //_MAPPOLARVIEW_H

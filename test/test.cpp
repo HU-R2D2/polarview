@@ -83,3 +83,15 @@ TEST(GetDistance, GetDistance) {
 
 	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 }
+
+//MapPolarView TESTING SECTION -------------------------------------------------
+TEST(Polarview, Constructor){
+	MapPolarView();
+}
+
+
+
+
+
+
+
