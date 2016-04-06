@@ -50,8 +50,8 @@ TEST(GetResultType, GetResultType) {
  Uses a very precise offset of (1000 * 1000 * 1000) to see if 2 length's are equal
  */
 TEST(SetDistance, SetDistance) {
-	Length len1(200);
-	Length len2(200);
+	Length len1(200 * Length::METER);
+	Length len2(200 * Length::METER);
 	
 	DistanceReading a(DistanceReading(len2, ResultType::DIDNT_CHECK));
 	Length tempmax(a.get_length());
@@ -62,7 +62,7 @@ TEST(SetDistance, SetDistance) {
 	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 	
 	// Set the length to a different value
-	a.set_length(201);
+	a.set_length(201 * Length::METER);
 	tempmax = a.get_length();
 	
 	// Length is no longer in range of 200, so it should be false
@@ -77,8 +77,8 @@ TEST(SetDistance, SetDistance) {
  Check if this length is within range of another length.
  */
 TEST(GetDistance, GetDistance) {
-	Length len1(200);
-	Length len2(200.01);
+	Length len1(200 * Length::METER);
+	Length len2(200.01 * Length::METER);
 	
 	DistanceReading a(DistanceReading(len2, ResultType::DIDNT_CHECK));
 	Length tempmax(a.get_length());
