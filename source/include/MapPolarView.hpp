@@ -35,11 +35,8 @@ public:
 	//Returns all the distance readings in the polarview
 	std::map<int, DistanceReading> & get_distances();
 
-	//Multiplies the distances with a given fraction
-	// MapPolarView operator*(double frac);
-
-	//Divides the distances with a given fraction
-	// MapPolarView operator/(double frac);
+	//Multiplies the distances with a given multiplier
+	MapPolarView scale(double frac);
 
 	//Adds 2 ArrayPolarviews together. This does not add
 	//two values together but rather 'merges' the two PolarViews
