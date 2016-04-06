@@ -4,14 +4,23 @@
 MapPolarView::MapPolarView(){
 	for(int i = 0; i < 360; i++){
 		readings.insert(std::pair<int, DistanceReading>(i,DistanceReading(DistanceReading(Length(), DistanceReading::ResultType::DIDNT_CHECK))));
-		
+
 	}
 	std::cout << readings.size() << " size of map" << std::endl;
+	rotate(5);
 }
 
 	//PolarView collapse() = 0;
 
-	//rotate(Angle angle) = 0;
+void MapPolarView::rotate(int angle){
+	for(int i = 0; i < angle; i++){
+		DistanceReading & buffer = readings.at(readings.size()-1);
+		for(int i = readings.size()-1; i > 0; i--){
+			readings.at(i) = readings.at(i-1);
+		}
+		readings.at(0) = buffer;
+	}
+}
 
 	// double match(PolarView v) = 0;
 
@@ -25,7 +34,7 @@ MapPolarView::MapPolarView(){
 		// temp.set_distance(temp.get_distance() * frac);
 	// }
 // }
-	
+
 // MapPolarView MapPolarView::operator/(double frac){
 	// for(int i = 0; i < 360; i++){
 		// DistanceReading & temp = readings[i];

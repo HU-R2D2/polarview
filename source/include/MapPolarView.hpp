@@ -20,7 +20,7 @@ public:
 	// virtual ArrayPolarView collapse() = 0;
 
 	//Rotates the PolarView with a given angle.
-	// virtual rotate(Angle angle) = 0;
+	void rotate(int angle);
 
 	//Matches the PolarView with a given PolarView
 	//Returns a value that is a perentage that indicates how much
