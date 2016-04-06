@@ -1,8 +1,11 @@
 #include "../include/MapPolarView.hpp"
+#include "../include/DistanceReading.hpp"
 
 	MapPolarView::MapPolarView(){
 		for(int i = 0; i < 360; i++){
 			//readings[i] = DistanceReading(Length(), DistanceReading::ResultType::DIDNT_CHECK);
+			readings.insert(std::pair<int, DistanceReading>(i,DistanceReading(DistanceReading(Length(), DistanceReading::ResultType::DIDNT_CHECK))));
+			
 		}
 		std::cout << readings.size() << " size of map" << std::endl;
 	}
