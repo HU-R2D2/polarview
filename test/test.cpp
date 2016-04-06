@@ -4,7 +4,8 @@
 //! Test set_result_type()
 /*!
  Test case for the set_result_type() function
- Create a DistanceReading object, check it's ResultType, set it's ResultType and check again.
+ Create a DistanceReading object, check it's ResultType, 
+	set it's ResultType and check again.
  Repeat for every possible ResultType.
  */
 TEST(SetResultType, SetResultType) {
@@ -44,7 +45,9 @@ TEST(GetResultType, GetResultType) {
 //! Test set_length()
 /*!
  Test case for the set_length() function
- Create a DistanceReading object and get it's length object. Check if this length is within range of another length.
+ Create a DistanceReading object and get it's length object.
+ Check if this length is within range of another length.
+ Uses a very precise offset of (1000 * 1000 * 1000) to see if 2 length's are equal
  */
 TEST(SetDistance, SetDistance) {
 	Length len1(200);
@@ -52,17 +55,17 @@ TEST(SetDistance, SetDistance) {
 	
 	DistanceReading a(DistanceReading(len2, ResultType::DIDNT_CHECK));
 	Length tempmax(a.get_length());
-	
-	const Length offset(len1 / (1000 * 1000 * 1000)); // Extremely precise offset for measurement
+	// Extremely precise offset for measurement
+	const Length offset(len1 / (1000 * 1000 * 1000));
 	
 	// Lengths are both 200, so in range
 	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 	
-	//! Set the length to a different value
+	// Set the length to a different value
 	a.set_length(201);
 	tempmax = a.get_length();
 	
-	//! Length is no longer in range of 200, so it should be false
+	// Length is no longer in range of 200, so it should be false
 	EXPECT_FALSE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 	
 }
@@ -70,7 +73,8 @@ TEST(SetDistance, SetDistance) {
 //! Test get_length()
 /*!
  Test case for the get_length() function
- Create a DistanceReading object and get it's length object. Check if this length is within range of another length.
+ Create a DistanceReading object and get it's length object.
+ Check if this length is within range of another length.
  */
 TEST(GetDistance, GetDistance) {
 	Length len1(200);
