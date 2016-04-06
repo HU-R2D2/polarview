@@ -59,3 +59,8 @@ MapPolarView MapPolarView::operator+=(MapPolarView v){
 	}
 	return (*this);
 }
+
+MapPolarView MapPolarView::operator+(MapPolarView v){
+	MapPolarView retPV = (*this);
+	return retPV += v;
+}

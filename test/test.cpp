@@ -95,10 +95,16 @@ TEST(Polarview, Scale){
 	mpv.scale(0.5);
 }
 
-TEST(Polarview, plusOperator){
+TEST(Polarview, addAssignOperator){
 	MapPolarView mpv = MapPolarView();
 	MapPolarView mv = MapPolarView();
 	mpv += mv;
+}
+
+TEST(Polarview, addOperator){
+	MapPolarView mpv = MapPolarView();
+	MapPolarView mv = MapPolarView();
+	MapPolarView result = mpv + mv;
 }
 
 //! Test get_distances()
