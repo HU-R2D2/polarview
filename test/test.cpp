@@ -1,6 +1,28 @@
 #include "gtest/gtest.h"
 #include "../source/include/DistanceReading.hpp"
 
+//! Test set_result_type()
+/*!
+ Test case for the set_result_type() function
+ Create a DistanceReading object, check it's ResultType, set it's ResultType and check again.
+ Repeat for every possible ResultType.
+ */
+TEST(SetResultType, SetResultType) {
+	ResultType didnt = ResultType::DIDNT_CHECK;
+	
+	Length len;
+	
+	DistanceReading a(DistanceReading(len, didnt));
+	
+	EXPECT_EQ(a.get_result_type(), ResultType::DIDNT_CHECK);
+	
+	a.set_result_type(ResultType::OUT_OF_RANGE);
+	EXPECT_EQ(a.get_result_type(), ResultType::OUT_OF_RANGE);
+	
+	a.set_result_type(ResultType::CHECKED);
+	EXPECT_EQ(a.get_result_type(), ResultType::CHECKED);
+}
+
 //! Test get_result_type()
 /*!
  Test case for the get_result_type() function
