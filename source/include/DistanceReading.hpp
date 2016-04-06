@@ -1,25 +1,24 @@
 #ifndef DISTANCEREADING_H
 #define DISTANCEREADING_H
 
-#include "../../../adt/source/include/Distance.hpp"
 #include "../../../adt/source/include/Length.hpp"
 
-enum class ResultType {
-	DIDNT_CHECK,
-	OUT_OF_RANGE,
-	CHECKED
-};
-
 class DistanceReading {
-	
+
 private:
-	Distance distance;
-	ResultType type;
-	
+	Length len;
+
 public:
+	enum class ResultType {
+		DIDNT_CHECK,
+		OUT_OF_RANGE,
+		CHECKED
+	};
+
+	DistanceReading(Length len);
 	//! DistanceReading constructor
-	DistanceReading(Distance dist, ResultType type);
-	
+	DistanceReading(Length len, ResultType type);
+
 	//! set_result_type
 	/*!
 	 Setter for the ResultType object
@@ -27,7 +26,7 @@ public:
 	 \return
 	 */
 	void set_result_type(ResultType t);
-	
+
 	//! get_result_type
 	/*!
 	 Getter for the ResultType object
@@ -35,22 +34,22 @@ public:
 	 \return ResultType type
 	 */
 	ResultType get_result_type();
-	
+
 	//! set_distance
 	/*!
 	 Setter for the Distance object
 	 \param Distance
 	 \return
 	 */
-	void set_distance(Distance d);
-	
+	void set_length(Length len);
+
 	//! get_distance
 	/*!
 	 Getter for the Distance object
 	 \param
 	 \return Distance distance
 	*/
-	Distance get_distance();
+	Translation get_length();
 };
 
 #endif // DISTANCEREADING_H
