@@ -2,10 +2,10 @@ cmake_minimum_required(VERSION 2.8.9)
 project(polarview)
 find_package (Threads)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x -W -O3 -Wall -Wno-missing-field-initializers -Werror -pedantic")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 file(GLOB SOURCES "source/include/*.hpp")
-file(GLOB SOURCES_GTEST "source/include/*.hpp" "test/*.cpp" "test/*.hpp")
+file(GLOB SOURCES_GTEST "../adt/source/include/*.hpp" "../adt/source/src/*.cpp" "source/src/*.cpp" "source/include/*.hpp" "test/*.cpp" "test/*.hpp")
 
 include_directories(
   ../deps/gtest-1.7.0/include
