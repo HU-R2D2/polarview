@@ -38,6 +38,6 @@ TEST(GetDistance, GetDistance) {
 	EXPECT_NE(a.get_distance(), dist2);
 	*/
 }
-TEST(ArrayPolarView, ArrayPolarView){
-  ArrayPolarView();
+TEST(MapPolarView, MapPolarView){
+  MapPolarView();
 }
