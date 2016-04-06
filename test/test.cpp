@@ -89,9 +89,21 @@ TEST(Polarview, Constructor){
 	MapPolarView();
 }
 
+//! Test get_distances()
+/*!
+ Test case for the get_distances() function
+ Create a MapPolarView object and get it's std::map.
+ *//*
+TEST(MapPolarView, GetDistances) {
+	MapPolarView v;
+	std::map m = v.get_distances();
+	
+	
+}
 
-
-
-
-
-
+TEST(MapPolarView, Match) {
+	MapPolarView v, w;
+	
+	
+	EXPECT_EQ(match(w), 50.0);
+}*/

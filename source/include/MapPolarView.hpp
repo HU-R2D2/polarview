@@ -25,7 +25,7 @@ public:
 	//Matches the PolarView with a given PolarView
 	//Returns a value that is a perentage that indicates how much
 	//the PolarViews are alike.
-	// virtual double match(PolarView v) = 0;
+	double match(MapPolarView v);
 
 	//Finds the best match with the given PolarView.
 	//Returns the rotation and the multiplication factor
@@ -33,7 +33,7 @@ public:
 	// virtual std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
 
 	//Returns all the distance readings in the polarview
-	//virtual std::map<Angle, DistanceReading> get_distances() = 0;
+	std::map<int, DistanceReading> & get_distances();
 
 	//Multiplies the distances with a given fraction
 	// MapPolarView operator*(double frac);

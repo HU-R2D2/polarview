@@ -13,7 +13,24 @@ MapPolarView::MapPolarView(){
 
 	//rotate(Angle angle) = 0;
 
-	// double match(PolarView v) = 0;
+std::map<int, DistanceReading> & MapPolarView::get_distances() {
+	return readings;
+}
+
+double MapPolarView::match(MapPolarView v) {
+	int c = 0;
+	for(int i = 0; i < 360; i++) {
+		Length len1 = this->get_distances().at(i).get_length();
+		Length len2 = v.get_distances().at(i).get_length();
+		
+		const Length offset(len1 / 10000);
+		
+		if(((len1 - offset) < len2) && (len2 < (len1 + offset))) {
+			c++;
+		}
+	}
+	return (c/360)*100;
+}
 
 	// std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
 
