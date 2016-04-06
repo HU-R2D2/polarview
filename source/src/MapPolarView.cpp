@@ -31,14 +31,16 @@
 	// 	}
 	// }
 	//
-	// //At the moment it assumes both PolarViews have the same starting point TODO NOT FINISHED
-	// ArrayPolarView ArrayPolarView::operator+(ArrayPolarView v){
-	// 	for(int i = 0; i < 360; i++){
-	// 		DistanceReading & temp = readings[i];
-	// 		if(temp.get_result_type() != ResultType::CHECKED){
-	// 			// if(v.get_result_type() == ResultType::CHECKED){
-	// 				// temp = v;
-	// 			// }
-	// 		}
-	// 	}
-	// }
+//At the moment it assumes both PolarViews have the same starting point TODO NOT FINISHED
+ArrayPolarView ArrayPolarView::operator+(ArrayPolarView v){
+	std::map tbadd{v.get_distances()};
+	for(int i = 0; i < 360; i++){
+		DistanceReading & temp = readings[i];
+		if(temp.get_result_type() != ResultType::CHECKED){
+			if(tbadd[i].get_result_type() == ResultType::CHECKED){
+				temp.set_distance(tbadd.get_distance());
+				temp.set_result_type(tbadd.get_result_type());
+			}
+		}
+	}
+}
