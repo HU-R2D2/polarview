@@ -40,7 +40,7 @@ public:
 
 	//Adds 2 ArrayPolarviews together. This does not add
 	//two values together but rather 'merges' the two PolarViews
-	// MapPolarView operator+(MapPolarView v);
+	MapPolarView operator+=(MapPolarView v);
 
 private:
 	std::map <int, DistanceReading> readings;

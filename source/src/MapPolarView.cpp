@@ -45,15 +45,17 @@ MapPolarView MapPolarView::scale(double frac){
 }
 
 // At the moment it assumes both PolarViews have the same starting point
-// MapPolarView MapPolarView::operator+(MapPolarView v){
-	// std::map tbadd{v.get_distances()};
-	// for(int i = 0; i < 360; i++){
-		// DistanceReading & temp = readings[i];
-		// if(temp.get_result_type() != ResultType::CHECKED){
-			// if(tbadd[i].get_result_type() == ResultType::CHECKED){
-				// temp.set_distance(tbadd.get_distance());
-				// temp.set_result_type(tbadd.get_result_type());
-			// }
-		// }
-	// }
-// }
+MapPolarView MapPolarView::operator+=(MapPolarView v){
+	std::map<int, DistanceReading> tbadd = v.get_distances();
+	for(int i = 0; i < 360; i++){
+		DistanceReading & temp = readings.at(i);
+		if(temp.get_result_type() != DistanceReading::ResultType::CHECKED){
+			DistanceReading addtemp = tbadd.at(i);
+			if(addtemp.get_result_type() == DistanceReading::ResultType::CHECKED){
+				temp.set_length(addtemp.get_length());
+				temp.set_result_type(addtemp.get_result_type());
+			}
+		}
+	}
+	return (*this);
+}
