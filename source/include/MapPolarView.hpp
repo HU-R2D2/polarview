@@ -20,7 +20,7 @@ public:
 	// virtual ArrayPolarView collapse() = 0;
 
 	//Rotates the PolarView with a given angle.
-	// virtual rotate(Angle angle) = 0;
+	void rotate(int angle);
 
 	//Matches the PolarView with a given PolarView
 	//Returns a value that is a perentage that indicates how much
@@ -42,6 +42,9 @@ public:
 	//two values together but rather 'merges' the two PolarViews
 	MapPolarView operator+=(MapPolarView v);
 	MapPolarView operator+(MapPolarView v);
+
+	void add_distancereading(int angle, Length len, DistanceReading::ResultType type);
+	void add_distancereading(int angle, DistanceReading dist);
 
 private:
 	std::map <int, DistanceReading> readings;

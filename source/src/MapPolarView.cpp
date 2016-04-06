@@ -4,14 +4,20 @@
 MapPolarView::MapPolarView(){
 	for(int i = 0; i < 360; i++){
 		readings.insert(std::pair<int, DistanceReading>(i,DistanceReading(DistanceReading(Length(), DistanceReading::ResultType::DIDNT_CHECK))));
-		
 	}
-	std::cout << readings.size() << " size of map" << std::endl;
 }
 
 	//PolarView collapse() = 0;
 
-	//rotate(Angle angle) = 0;
+void MapPolarView::rotate(int angle){
+	for(int i = 0; i < angle; i++){
+		DistanceReading buffer = readings.at(readings.size()-1);
+		for(int i = readings.size()-1; i > 0; i--){
+			readings.at(i) = readings.at(i-1);
+		}
+		readings.at(0) = buffer;
+	}
+}
 
 std::map<int, DistanceReading> & MapPolarView::get_distances() {
 	return readings;
@@ -22,9 +28,9 @@ double MapPolarView::match(MapPolarView v) {
 	for(int i = 0; i < 360; i++) {
 		Length len1 = this->get_distances().at(i).get_length();
 		Length len2 = v.get_distances().at(i).get_length();
-		
+
 		const Length offset(len1 / 10000);
-		
+
 		if(((len1 - offset) < len2) && (len2 < (len1 + offset))) {
 			c++;
 		}
@@ -34,10 +40,8 @@ double MapPolarView::match(MapPolarView v) {
 
 	// std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
 
-	//std::map<Angle, DistanceReading> get_distance() = 0;
-
 MapPolarView MapPolarView::scale(double frac){
-	for(int i = 0; i < 360; i++){		
+	for(int i = 0; i < 360; i++){
 		DistanceReading & temp = readings.at(i);
 		temp.set_length(temp.get_length() * frac);
 	}
@@ -63,4 +67,16 @@ MapPolarView MapPolarView::operator+=(MapPolarView v){
 MapPolarView MapPolarView::operator+(MapPolarView v){
 	MapPolarView retPV = (*this);
 	return retPV += v;
+}
+
+void MapPolarView::add_distancereading(int angle, Length len, DistanceReading::ResultType type){
+	if(angle >= 0 && angle < readings.size()){
+		readings.at(angle).set_length(len);
+		readings.at(angle).set_result_type(type);
+	}
+}
+void MapPolarView::add_distancereading(int angle, DistanceReading dist){
+	if(angle >= 0 && angle < readings.size()){
+		readings.at(angle) = dist;
+	}
 }

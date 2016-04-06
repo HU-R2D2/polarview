@@ -107,22 +107,50 @@ TEST(Polarview, addOperator){
 	MapPolarView result = mpv + mv;
 }
 
-//! Test get_distances()
-/*!
- Test case for the get_distances() function
- Create a MapPolarView object and get it's std::map.
- *//*
-	
-TEST(MapPolarView, GetDistances) {
-	MapPolarView v;
-	std::map m = v.get_distances();
-	
-	
+TEST(Polarview, add_distancereadingOne){
+	MapPolarView mpv = MapPolarView();
+	mpv.add_distancereading(0, 3 * Length::METER, DistanceReading::ResultType::CHECKED);
+	// std::map<int, DistanceReading> testmap = mpv.get_distances();
+	// std::cout << testmap.at(0).get_length() << " add_distancereadingOne length" << std::endl;
+
 }
-	
-TEST(MapPolarView, Match) {
-	MapPolarView v, w;
-	
-	
-	EXPECT_EQ(match(w), 50.0);
-}*/
+TEST(Polarview, add_distancereadingTwo){
+	DistanceReading dist = DistanceReading(2*Length::METER, DistanceReading::ResultType::CHECKED);
+	MapPolarView mpv = MapPolarView();
+	mpv.add_distancereading(1, dist);
+	// std::map<int, DistanceReading> testmap = mpv.get_distances();
+	// std::cout << testmap.at(1).get_length()<< " add_distancereadingTwo length" << std::endl;
+}
+TEST(Polarview, rotate){
+	MapPolarView mpv = MapPolarView();
+	DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
+
+	mpv.add_distancereading(0, dist);
+	mpv.add_distancereading(3, dist);
+	mpv.add_distancereading(5, dist);
+	mpv.add_distancereading(6, dist);
+	mpv.add_distancereading(357, dist);
+	mpv.add_distancereading(359, dist);
+	mpv.rotate(5);
+	std::map<int,DistanceReading> testmap = mpv.get_distances();
+
+	// for(int i = 0; i < 15; i++){
+	// 	std::cout << testmap.at(i).get_length() << " ";
+	// }
+	// std::cout << "<<< Post-rotate" << std::endl;
+}
+
+// Test get_distances()
+//  Test case for the get_distances() function
+//  Create a MapPolarView object and get it's std::map.
+
+TEST(MapPolarView, get_distances) {
+	MapPolarView v;
+	std::map<int, DistanceReading> m = v.get_distances();
+}
+
+// TEST(MapPolarView, Match) {
+// 	MapPolarView v, w;
+//
+// 	EXPECT_EQ(v.match(w), 50.0);
+// }
