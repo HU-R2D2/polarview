@@ -1,8 +1,8 @@
-#include "../include/ArrayPolarView.hpp"
+#include "../include/MapPolarView.hpp"
 
 	MapPolarView::MapPolarView(){
 		for(int i = 0; i < 360; i++){
-			readings[i] = DistanceReading(Length(), DistanceReading::ResultType::DIDNT_CHECK);
+			//readings[i] = DistanceReading(Length(), DistanceReading::ResultType::DIDNT_CHECK);
 		}
 		std::cout << readings.size() << " size of map" << std::endl;
 	}
@@ -30,7 +30,7 @@
 	// 		temp.set_distance(temp.get_distance() / frac);
 	// 	}
 	// }
-	
+
 //At the moment it assumes both PolarViews have the same starting point TODO NOT FINISHED
 // ArrayPolarView ArrayPolarView::operator+(ArrayPolarView v){
 	// std::map tbadd{v.get_distances()};

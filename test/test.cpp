@@ -1,6 +1,28 @@
 #include "gtest/gtest.h"
 #include "../source/include/DistanceReading.hpp"
-#include "../source/include/ArrayPolarView.hpp"
+#include "../source/include/MapPolarView.hpp"
+
+//! Test set_result_type()
+/*!
+ Test case for the set_result_type() function
+ Create a DistanceReading object, check it's ResultType,
+	set it's ResultType and check again.
+ Repeat for every possible ResultType.
+ */
+TEST(SetResultType, SetResultType) {
+
+	Length len;
+
+	DistanceReading a(DistanceReading(len, DistanceReading::ResultType::DIDNT_CHECK));
+
+	EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::DIDNT_CHECK);
+
+	a.set_result_type(DistanceReading::ResultType::OUT_OF_RANGE);
+	EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::OUT_OF_RANGE);
+
+	a.set_result_type(DistanceReading::ResultType::CHECKED);
+	EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::CHECKED);
+}
 
 //! Test get_result_type()
 /*!
@@ -9,35 +31,55 @@
  against ResultType objects
  */
 TEST(GetResultType, GetResultType) {
-	/*
-	ResultType didnt = ResultType::DIDNT_CHECK;
-	ResultType range = ResultType::OUT_OF_RANGE;
-	ResultType check = ResultType::CHECKED;
 
-	Distance dist;
+	Length len;
 
-	DistanceReading a(DistanceReading(dist, didnt));
-	DistanceReading b(DistanceReading(dist, range));
-	DistanceReading c(DistanceReading(dist, check));
-	 */
+	DistanceReading a(DistanceReading(len, DistanceReading::ResultType::DIDNT_CHECK));
+	DistanceReading b(DistanceReading(len, DistanceReading::ResultType::OUT_OF_RANGE));
+	DistanceReading c(DistanceReading(len, DistanceReading::ResultType::CHECKED));
 }
 
-//! Test get_distance()
+//! Test set_length()
 /*!
- Test case for the get_distance() function
- Create a DistanceReading object and compare it's Distance against an empty
- Distance object. Then compare it against a filled Distance object
+ Test case for the set_length() function
+ Create a DistanceReading object and get it's length object.
+ Check if this length is within range of another length.
+ Uses a very precise offset of (1000 * 1000 * 1000) to see if 2 length's are equal
+ */
+TEST(SetDistance, SetDistance) {
+	Length len1(200 * Length::METER);
+	Length len2(200 * Length::METER);
+
+	DistanceReading a(DistanceReading(len2, DistanceReading::ResultType::DIDNT_CHECK));
+	Length tempmax(a.get_length());
+	// Extremely precise offset for measurement
+	const Length offset(len1 / (1000 * 1000 * 1000));
+
+	// Lengths are both 200, so in range
+	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
+
+	// Set the length to a different value
+	a.set_length(201 * Length::METER);
+	tempmax = a.get_length();
+
+	// Length is no longer in range of 200, so it should be false
+	EXPECT_FALSE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
+}
+
+//! Test get_length()
+/*!
+ Test case for the get_length() function
+ Create a DistanceReading object and get it's length object.
+ Check if this length is within range of another length.
  */
 TEST(GetDistance, GetDistance) {
-	/*
-	Distance dist1;
-	Distance dist2(4 * Length::METER, 5 * Length::METER, 6 * Length::METER);
-	DistanceReading a = DistanceReading(dist1, ResultType::DIDNT_CHECK);
+	Length len1(200 * Length::METER);
+	Length len2(200.01 * Length::METER);
 
-	EXPECT_EQ(a.get_distance(), dist1);
-	EXPECT_NE(a.get_distance(), dist2);
-	*/
-}
-TEST(MapPolarView, MapPolarView){
-  MapPolarView();
+	DistanceReading a(DistanceReading(len2, DistanceReading::ResultType::DIDNT_CHECK));
+	Length tempmax(a.get_length());
+
+	const Length offset(len1 / 10000);
+
+	EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 }

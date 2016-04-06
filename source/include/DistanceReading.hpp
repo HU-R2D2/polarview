@@ -4,10 +4,6 @@
 #include "../../../adt/source/include/Length.hpp"
 
 class DistanceReading {
-
-private:
-	Length len;
-
 public:
 	enum class ResultType {
 		DIDNT_CHECK,
@@ -15,7 +11,6 @@ public:
 		CHECKED
 	};
 
-	DistanceReading(Length len);
 	//! DistanceReading constructor
 	DistanceReading(Length len, ResultType type);
 
@@ -35,21 +30,24 @@ public:
 	 */
 	ResultType get_result_type();
 
-	//! set_distance
+	//! set_length
 	/*!
-	 Setter for the Distance object
-	 \param Distance
+	 Setter for the Length object
+	 \param Length
 	 \return
 	 */
 	void set_length(Length len);
 
 	//! get_distance
 	/*!
-	 Getter for the Distance object
+	 Getter for the Length object
 	 \param
-	 \return Distance distance
+	 \return Length length
 	*/
-	Translation get_length();
+	Length & get_length();
+private:
+	Length length;
+	ResultType type;
 };
 
 #endif // DISTANCEREADING_H
