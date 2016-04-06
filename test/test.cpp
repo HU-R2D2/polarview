@@ -89,23 +89,23 @@ TEST(Polarview, Constructor){
 	MapPolarView mpv = MapPolarView();
 }
 
-//! Test get_distances()
-/*!
- Test case for the get_distances() function
- Create a MapPolarView object and get it's std::map.
- *//*
-	
 TEST(Polarview, Scale){
 	MapPolarView mpv = MapPolarView();
 	mpv.scale(2);
 	mpv.scale(0.5);
 }
 
-// TEST(Polarview, plusOperator){
-	// MapPolarView mpv = MapPolarView();
-	// MapPolarView mv = MapPolarView();
-	// mpv + mv;
-// }
+TEST(Polarview, plusOperator){
+	MapPolarView mpv = MapPolarView();
+	MapPolarView mv = MapPolarView();
+	mpv += mv;
+}
+
+//! Test get_distances()
+/*!
+ Test case for the get_distances() function
+ Create a MapPolarView object and get it's std::map.
+ *//*
 	
 TEST(MapPolarView, GetDistances) {
 	MapPolarView v;
