@@ -3,14 +3,14 @@
 DistanceReading::DistanceReading(Length len, ResultType type) :
 	length(len), type(type)
 {
-	
+
 }
 
 void DistanceReading::set_result_type(ResultType t) {
 	this->type = t;
 }
 
-ResultType DistanceReading::get_result_type() {
+DistanceReading::ResultType DistanceReading::get_result_type() {
 	return this->type;
 }
 
