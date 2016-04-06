@@ -89,15 +89,17 @@ TEST(Polarview, Constructor){
 	MapPolarView mpv = MapPolarView();
 }
 
-TEST(Polarview, Multiplication){
+TEST(Polarview, Scale){
 	MapPolarView mpv = MapPolarView();
-	mpv = mpv * 2;
+	mpv.scale(2);
+	mpv.scale(0.5);
 }
 
-TEST(Polarview, Dividing){
-	MapPolarView mpv = MapPolarView();
-	mpv = mpv / 2;
-}
+// TEST(Polarview, plusOperator){
+	// MapPolarView mpv = MapPolarView();
+	// MapPolarView mv = MapPolarView();
+	// mpv + mv;
+// }
 
 
 
