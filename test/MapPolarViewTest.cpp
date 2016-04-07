@@ -7,29 +7,90 @@ TEST(MapPolarView, Constructor){
 
 TEST(MapPolarView, Collapse){
 	MapPolarView mpv = MapPolarView();
-	DistanceReading distRead(Length(6*Length::METER), DistanceReading::ResultType::CHECKED);
-	mpv.add_distancereading(370, distRead);
+	DistanceReading distRead1(Length(6*Length::METER), DistanceReading::ResultType::CHECKED);
+	DistanceReading distRead2(Length(3*Length::METER), DistanceReading::ResultType::CHECKED);
+	
+	//Checks it doesn't override the same angle which already has a value
+	mpv.add_distancereading(10, distRead1);
+	mpv.add_distancereading(370, distRead2);
+	//checks if current values are kept.
+	mpv.add_distancereading(20, distRead1);
+	//checks if outside range value is merged
+	mpv.add_distancereading(375, distRead2);
+	
 	std::map<int, DistanceReading>& map = mpv.get_distances();
 	mpv.collapse();
-	EXPECT_EQ(map.at(10).get_length(), distRead.get_length());
+	
+	EXPECT_EQ(map.at(10).get_length(), distRead1.get_length()) << "got overridden by outside value";
+	EXPECT_EQ(map.at(20).get_length(), distRead1.get_length()) << "check of kept value";
+	EXPECT_EQ(map.at(15).get_length(), distRead2.get_length()) << "check if collapse value addded";
+	
+	EXPECT_FALSE(map.count(375) > 0) << "outside value has been deleted"; 
 }
 
 TEST(MapPolarView, Scale){
     MapPolarView mpv = MapPolarView();
-    mpv.scale(2);
-    mpv.scale(0.5);
+	Length len1 = (6*Length::METER);
+	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
+	mpv.add_distancereading(10, distRead1);
+	
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	
+    mpv.scale(2); // multiplication test
+	EXPECT_EQ(map.at(10).get_length(), len1 * 2);
+	
+    mpv.scale(0.5); // division test
+	EXPECT_EQ(map.at(10).get_length(), len1);
 }
 
 TEST(MapPolarView, addAssignOperator){
     MapPolarView mpv = MapPolarView();
     MapPolarView mv = MapPolarView();
-    mpv += mv;
+	Length len1(6*Length::METER);
+	Length len2(3*Length::METER);
+	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
+	DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
+	
+	mpv.add_distancereading(10, distRead1);
+	mv.add_distancereading(10, distRead2);
+	
+	mpv.add_distancereading(20, distRead1);
+	mv.add_distancereading(30, distRead2);
+	
+	mpv += mv;
+	
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	
+	EXPECT_EQ(map.at(10).get_length(), len1);
+	EXPECT_EQ(map.at(20).get_length(), len1);
+	EXPECT_EQ(map.at(30).get_length(), len2);
 }
 
 TEST(MapPolarView, addOperator){
     MapPolarView mpv = MapPolarView();
     MapPolarView mv = MapPolarView();
-    MapPolarView result = mpv + mv;
+	Length len1(6*Length::METER);
+	Length len2(3*Length::METER);	
+	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
+	DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
+	
+	mpv.add_distancereading(10, distRead1);
+	mv.add_distancereading(10, distRead2);
+	
+	mpv.add_distancereading(20, distRead1);
+	mv.add_distancereading(30, distRead2);
+	
+	MapPolarView copyMap = mpv + mv;
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	
+	EXPECT_EQ(map.at(10).get_length(), len1);
+	EXPECT_EQ(map.at(20).get_length(), len1);
+	EXPECT_EQ(map.at(30).get_length(), Length());
+	
+	std::map<int, DistanceReading>& cMap = copyMap.get_distances();
+	EXPECT_EQ(cMap.at(10).get_length(), len1);
+	EXPECT_EQ(cMap.at(20).get_length(), len1);
+	EXPECT_EQ(cMap.at(30).get_length(), len2);
 }
 
 TEST(MapPolarView, add_distancereadingOne){
