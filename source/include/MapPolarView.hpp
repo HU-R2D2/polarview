@@ -4,6 +4,7 @@
 #include "DistanceReading.hpp"
 #include <map>
 #include <algorithm>
+#include <tuple>
 
 class MapPolarView{
 public:
@@ -17,7 +18,7 @@ public:
     // However: when for example the 16th degree
     // wasn't captured and the 376th is available,
     // it will use that value instead.
-    // virtual ArrayPolarView collapse() = 0;
+    MapPolarView collapse();
 
     //Rotates the PolarView with a given angle.
     void rotate(int angle);
@@ -30,7 +31,7 @@ public:
     //Finds the best match with the given PolarView.
     //Returns the rotation and the multiplication factor
     //that best matches in a std::tuple
-    // virtual std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
+    std::tuple<int, double> find_best_match(MapPolarView v);
 
     //Returns all the distance readings in the polarview
     std::map<int, DistanceReading> & get_distances();
