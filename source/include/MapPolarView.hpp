@@ -14,7 +14,7 @@ public:
     //Collapses the PolarView into a PolarView that contains every datapoint only once
     // For instance: when the robot spins twice, the values will
     // overlap at the 360th degree.
-    // Collapse will get rid of the duplucate values.
+    // Collapse will get rid of the duplicate values.
     // However: when for example the 16th degree
     // wasn't captured and the 376th is available,
     // it will use that value instead.
