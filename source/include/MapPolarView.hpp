@@ -17,7 +17,7 @@ public:
     // However: when for example the 16th degree
     // wasn't captured and the 376th is available,
     // it will use that value instead.
-    // virtual ArrayPolarView collapse() = 0;
+    MapPolarView collapse();
 
     //Rotates the PolarView with a given angle.
     void rotate(int angle);

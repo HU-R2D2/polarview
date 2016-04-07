@@ -7,7 +7,23 @@ MapPolarView::MapPolarView(){
     }
 }
 
-    //PolarView collapse() = 0;
+MapPolarView MapPolarView::collapse(){
+	std::vector<int> keyValues;
+	for(auto & angle: readings){
+		if(angle.first > 359){
+			keyValues.push_back(angle.first);
+		}
+	}
+	for(auto & extraAngle: keyValues){
+		DistanceReading & tbAdd = readings.at(extraAngle);
+		DistanceReading & temp = readings.at(extraAngle % 360);
+		if(temp.get_result_type() != DistanceReading::ResultType::CHECKED){
+			temp.set_length(tbAdd.get_length());
+		}
+		readings.erase(extraAngle);
+	}
+	return (*this);
+}
 
 void MapPolarView::rotate(int angle){
     for(int i = 0; i < angle; i++){
@@ -70,13 +86,19 @@ MapPolarView MapPolarView::operator+(MapPolarView v){
 }
 
 void MapPolarView::add_distancereading(int angle, Length len, DistanceReading::ResultType type){
-    if(angle >= 0 && angle < readings.size()){
+    if(readings.count(angle) > 0){
         readings.at(angle).set_length(len);
         readings.at(angle).set_result_type(type);
     }
+	else{
+		readings.insert(std::pair<int, DistanceReading>(angle, DistanceReading(len, type)));
+	}
 }
 void MapPolarView::add_distancereading(int angle, DistanceReading dist){
-    if(angle >= 0 && angle < readings.size()){
+    if(readings.count(angle) > 0){
         readings.at(angle) = dist;
     }
+	else{
+		readings.insert(std::pair<int, DistanceReading>(angle, dist));
+	}
 }

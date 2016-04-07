@@ -5,6 +5,15 @@ TEST(MapPolarView, Constructor){
     MapPolarView mpv = MapPolarView();
 }
 
+TEST(MapPolarView, Collapse){
+	MapPolarView mpv = MapPolarView();
+	DistanceReading distRead(Length(6*Length::METER), DistanceReading::ResultType::CHECKED);
+	mpv.add_distancereading(370, distRead);
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	mpv.collapse();
+	EXPECT_EQ(map.at(10).get_length(), distRead.get_length());
+}
+
 TEST(MapPolarView, Scale){
     MapPolarView mpv = MapPolarView();
     mpv.scale(2);
