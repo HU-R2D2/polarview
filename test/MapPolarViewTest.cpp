@@ -50,19 +50,19 @@ TEST(MapPolarView, rotate){
     MapPolarView mpv = MapPolarView();
     DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
 
-    mpv.add_distancereading(0, dist);
-    mpv.add_distancereading(3, dist);
-    mpv.add_distancereading(5, dist);
-    mpv.add_distancereading(6, dist);
+    mpv.add_distancereading(354, dist);
+    mpv.add_distancereading(355, dist);
+    mpv.add_distancereading(356, dist);
     mpv.add_distancereading(357, dist);
+    mpv.add_distancereading(358, dist);
     mpv.add_distancereading(359, dist);
     mpv.rotate(5);
-    std::map<int,DistanceReading> testmap = mpv.get_distances();
+    // std::map<int,DistanceReading> testmap = mpv.get_distances();
 
     // for(int i = 0; i < 15; i++){
-    //     std::cout << testmap.at(i).get_length() << " ";
+    //     std::cout << i<< ":" << testmap.at(i).get_length() << " ";
     // }
-    // std::cout << "<<< Post-rotate" << std::endl;
+    // std::cout << " <<< Post-rotate" << std::endl;
 }
 
 // Test get_distances()
@@ -79,3 +79,10 @@ TEST(MapPolarView, get_distances) {
 //
 //     EXPECT_EQ(v.match(w), 50.0);
 // }
+
+TEST(MapPolarView, find_best_match){
+    MapPolarView mpv = MapPolarView();
+    MapPolarView pv = MapPolarView();
+
+    mpv.find_best_match(pv);
+}
