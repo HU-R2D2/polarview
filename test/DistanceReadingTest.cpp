@@ -30,12 +30,15 @@ TEST(DistanceReading, SetResultType) {
 //  against ResultType objects
 
 TEST(DistanceReading, GetResultType) {
-
     Length len;
 
     DistanceReading a(DistanceReading(len, DistanceReading::ResultType::DIDNT_CHECK));
     DistanceReading b(DistanceReading(len, DistanceReading::ResultType::OUT_OF_RANGE));
     DistanceReading c(DistanceReading(len, DistanceReading::ResultType::CHECKED));
+    
+    EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::DIDNT_CHECK);
+    EXPECT_EQ(b.get_result_type(), DistanceReading::ResultType::OUT_OF_RANGE);
+    EXPECT_EQ(c.get_result_type(), DistanceReading::ResultType::CHECKED);
 }
 
  // Test set_length()
