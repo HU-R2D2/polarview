@@ -24,14 +24,13 @@ std::map<int, DistanceReading> & MapPolarView::get_distances() {
 }
 
 double MapPolarView::match(MapPolarView v) {
-    int c = 0;
+    double c = 0;
+    Length len1, len2;
     for(int i = 0; i < 360; i++) {
-        Length len1 = this->get_distances().at(i).get_length();
-        Length len2 = v.get_distances().at(i).get_length();
-
-        const Length offset(len1 / 10000);
-
-        if(((len1 - offset) < len2) && (len2 < (len1 + offset))) {
+        len1 = readings.at(i).get_length();
+        len2 = v.get_distances().at(i).get_length();
+        
+        if(len1.in_range(len2, 0.00001)) {
             c++;
         }
     }

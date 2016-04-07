@@ -65,8 +65,44 @@ TEST(MapPolarView, get_distances) {
     std::map<int, DistanceReading> m = v.get_distances();
 }
 
-// TEST(MapPolarView, Match) {
-//     MapPolarView v, w;
+//  Test match()
 //
-//     EXPECT_EQ(v.match(w), 50.0);
-// }
+//  Test case for the match() function
+//  Create 2 MapPolarView's to compare. Create 2 different DistanceReading objects to use in testing.
+//  Fill the MapPolarView object and compare how many of their lists are the same.
+//  Add a wrong value and check again. Expect the value to not be 100%
+
+TEST(MapPolarView, Match) {
+    MapPolarView mpv1 = MapPolarView();
+    MapPolarView mpv2 = MapPolarView();
+    DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
+    DistanceReading dist2 = DistanceReading(4*Length::METER, DistanceReading::ResultType::CHECKED);
+    
+    mpv1.add_distancereading(0, dist);
+    mpv1.add_distancereading(3, dist);
+    mpv1.add_distancereading(5, dist);
+    mpv1.add_distancereading(6, dist);
+    mpv1.add_distancereading(356, dist);
+    mpv1.add_distancereading(357, dist);
+    mpv1.add_distancereading(358, dist);
+    mpv1.add_distancereading(359, dist);
+    std::map<int, DistanceReading> map1 = mpv1.get_distances();
+    
+    mpv2.add_distancereading(0, dist);
+    mpv2.add_distancereading(3, dist);
+    mpv2.add_distancereading(5, dist);
+    mpv2.add_distancereading(6, dist);
+    mpv2.add_distancereading(356, dist);
+    mpv2.add_distancereading(357, dist);
+    mpv2.add_distancereading(358, dist);
+    mpv2.add_distancereading(359, dist);
+    std::map<int, DistanceReading> map2 = mpv2.get_distances();
+    
+    EXPECT_EQ(mpv1.match(mpv2), 100);
+    EXPECT_NE(mpv1.match(mpv2), 99.9);
+    EXPECT_EQ(mpv1.match(mpv1), 100);
+    
+    mpv1.add_distancereading(359, dist2);
+    map1 = mpv1.get_distances();
+    EXPECT_NE(mpv1.match(mpv2), 100);
+}
