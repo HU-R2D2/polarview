@@ -52,14 +52,15 @@ void MapPolarView::rotate(int angle){
 
 double MapPolarView::match(MapPolarView v) {
     double c = 0;
-    Length len1, len2;
+    double len1, len2;
+    double offset = 0.0001;
     for(int i = 0; i < 360; i++) {
-        len1 = readings.at(i).get_length();
-        len2 = v.get_distances().at(i).get_length();
-
-        // if(len1.in_range(len2, 0.00001)) {
-        //     c++;
-        // }
+        len1 = (readings.at(i).get_length() / Length::METER);
+        len2 = (v.get_distances().at(i).get_length() / Length::METER);
+        
+        if(((len1  - offset) < len2) && (len2 < (len1  + offset))) {
+            c++;
+        }
     }
     return (c/360)*100;
 }
