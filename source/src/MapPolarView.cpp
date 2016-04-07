@@ -10,19 +10,35 @@ MapPolarView::MapPolarView(){
     //PolarView collapse() = 0;
 
 void MapPolarView::rotate(int angle){
-    for(int i = 0; i < angle; i++){
-        DistanceReading buffer = readings.at(readings.size()-1);
-        for(int i = readings.size()-1; i > 0; i--){
-            readings.at(i) = readings.at(i-1);
-        }
-        readings.at(0) = buffer;
+    // rotate v0.1
+    // for(int i = 0; i < angle; i++){
+    //     DistanceReading buffer = readings.at(readings.size()-1);
+    //     for(int i = readings.size()-1; i > 0; i--){
+    //         readings.at(i) = readings.at(i-1);
+    //     }
+    //     readings.at(0) = buffer;
+    // }
+
+    // rotate v0.2
+    std::map<int, DistanceReading> buffer;
+    for(int i = 0; i <= angle; i++){
+        buffer.insert(std::pair<int,DistanceReading>(i, readings.at(readings.size()-1+i-angle) ));
+    }
+    for(int i = readings.size()-1; i > 0+angle; i--){
+        readings.at(i) = readings.at(i-1-angle);
+    }
+    for(int i = 0; i < buffer.size(); i++){
+        readings.at(i) = buffer.at(i);
+        // std::cout << "buffer:" << buffer.at(i).get_length() << " ";
+        // std::cout << "readings:"<< readings.at(i).get_length()<< " ";
     }
 }
 
 double MapPolarView::match(MapPolarView v) {
     int c = 0;
     for(int i = 0; i < 360; i++) {
-        Length len1 = this->get_distances().at(i).get_length();
+        //Length len1 = this->get_distances.at(i).get_length()
+        Length len1 = readings.at(i).get_length();
         Length len2 = v.get_distances().at(i).get_length();
 
         const Length offset(len1 / 10000);
@@ -35,19 +51,22 @@ double MapPolarView::match(MapPolarView v) {
 }
 
 std::tuple<int, double> MapPolarView::find_best_match(MapPolarView v){
+    int rotateFactor = 10;
+    double scaleFactor = 0.5;
+
     int bestRotation;
     double bestScale;
     double bestMatch;
     std::map<int, DistanceReading> readingsBackup = readings;
-    for(double d = 0.0; d < 2 ; d+=0.1){
-        scale(d+0.1);
-        std::cout << d << std::endl;
-        for(int i = 0; i < 360; i++){
+    for(double d = 0.0; d < 2 ; d+=scaleFactor){
+        scale(d+scaleFactor);
+        // std::cout << d << std::endl;
+        for(int i = 0; i < 360/rotateFactor; i++){
             if(match(v) > bestMatch){
                 bestScale = d;
                 bestRotation = i;
             }
-            rotate(1);
+            rotate(rotateFactor);
         }
         readings = readingsBackup;
     }
