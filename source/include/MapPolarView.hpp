@@ -36,6 +36,7 @@
 #include <map>
 #include <algorithm>
 #include <tuple>
+#include <vector>
 
 class MapPolarView{
 public:
