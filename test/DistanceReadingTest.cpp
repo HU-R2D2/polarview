@@ -12,7 +12,8 @@ TEST(DistanceReading, SetResultType) {
 
     Length len;
 
-    DistanceReading a(DistanceReading(len, DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading a(DistanceReading(len,
+                                      DistanceReading::ResultType::DIDNT_CHECK));
 
     EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::DIDNT_CHECK);
 
@@ -32,9 +33,12 @@ TEST(DistanceReading, SetResultType) {
 TEST(DistanceReading, GetResultType) {
     Length len;
 
-    DistanceReading a(DistanceReading(len, DistanceReading::ResultType::DIDNT_CHECK));
-    DistanceReading b(DistanceReading(len, DistanceReading::ResultType::OUT_OF_RANGE));
-    DistanceReading c(DistanceReading(len, DistanceReading::ResultType::CHECKED));
+    DistanceReading a(DistanceReading(len,
+                                      DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading b(DistanceReading(len,
+                                      DistanceReading::ResultType::OUT_OF_RANGE));
+    DistanceReading c(DistanceReading(len,
+                                      DistanceReading::ResultType::CHECKED));
     
     EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::DIDNT_CHECK);
     EXPECT_EQ(b.get_result_type(), DistanceReading::ResultType::OUT_OF_RANGE);
@@ -46,13 +50,15 @@ TEST(DistanceReading, GetResultType) {
  // Test case for the set_length() function
  // Create a DistanceReading object and get it's length object.
  // Check if this length is within range of another length.
- // Uses a very precise offset of (1000 * 1000 * 1000) to see if 2 length's are equal
+ // Uses a very precise offset of (1000 * 1000 * 1000)
+ // to see if 2 length's are equal
 
 TEST(DistanceReading, SetDistance) {
     Length len1(200 * Length::METER);
     Length len2(200 * Length::METER);
 
-    DistanceReading a(DistanceReading(len2, DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading a(DistanceReading(len2,
+                                      DistanceReading::ResultType::DIDNT_CHECK));
     Length tempmax(a.get_length());
     // Extremely precise offset for measurement
     const Length offset(len1 / (1000 * 1000 * 1000));
@@ -78,7 +84,8 @@ TEST(DistanceReading, GetDistance) {
     Length len1(200 * Length::METER);
     Length len2(200.01 * Length::METER);
 
-    DistanceReading a(DistanceReading(len2, DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading a(DistanceReading(len2,
+                                      DistanceReading::ResultType::DIDNT_CHECK));
     Length tempmax(a.get_length());
 
     const Length offset(len1 / 10000);
