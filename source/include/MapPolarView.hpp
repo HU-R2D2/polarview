@@ -1,4 +1,4 @@
-////                                                                                                                                        
+////
 // Roborescue
 //
 // \file MapPolarView.hpp
@@ -33,6 +33,7 @@
 #define _MAPPOLARVIEW_H
 
 #include "DistanceReading.hpp"
+#include "../../../adt/source/include/Angle.hpp"
 #include <map>
 #include <algorithm>
 #include <tuple>

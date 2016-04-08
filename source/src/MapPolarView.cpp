@@ -1,4 +1,4 @@
-////                                                                                                                                        
+////
 // Roborescue
 //
 // \file MapPolarView.cpp
