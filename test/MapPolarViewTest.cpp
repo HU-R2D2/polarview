@@ -14,8 +14,10 @@ TEST(MapPolarView, Constructor){
 
 TEST(MapPolarView, Collapse){
 	MapPolarView mpv = MapPolarView();
-	DistanceReading distRead1(Length(6*Length::METER), DistanceReading::ResultType::CHECKED);
-	DistanceReading distRead2(Length(3*Length::METER), DistanceReading::ResultType::CHECKED);
+	DistanceReading distRead1(Length(6*Length::METER),
+                              DistanceReading::ResultType::CHECKED);
+	DistanceReading distRead2(Length(3*Length::METER),
+                              DistanceReading::ResultType::CHECKED);
 
 	//Checks it doesn't override the same angle which already has a value
 	mpv.add_distancereading(10, distRead1);
@@ -28,9 +30,12 @@ TEST(MapPolarView, Collapse){
 	std::map<int, DistanceReading>& map = mpv.get_distances();
 	mpv.collapse();
 
-	EXPECT_TRUE(length_range(map.at(10).get_length(), distRead1.get_length())) << "got overridden by outside value";
-	EXPECT_TRUE(length_range(map.at(20).get_length(), distRead1.get_length())) << "check of kept value";
-	EXPECT_TRUE(length_range(map.at(15).get_length(), distRead2.get_length())) << "check if collapse value addded";
+	EXPECT_TRUE(length_range(map.at(10).get_length(),
+                             distRead1.get_length())) << "got overridden by outside value";
+	EXPECT_TRUE(length_range(map.at(20).get_length(),
+                             distRead1.get_length())) << "check of kept value";
+	EXPECT_TRUE(length_range(map.at(15).get_length(),
+                             distRead2.get_length())) << "check if collapse value addded";
 
 	EXPECT_FALSE(map.count(375) > 0) << "outside value has been deleted";
 }
@@ -102,21 +107,20 @@ TEST(MapPolarView, addOperator){
 
 TEST(MapPolarView, add_distancereadingOne){
     MapPolarView mpv = MapPolarView();
-    mpv.add_distancereading(0, 3 * Length::METER, DistanceReading::ResultType::CHECKED);
-    // std::map<int, DistanceReading> testmap = mpv.get_distances();
-    // std::cout << testmap.at(0).get_length() << " add_distancereadingOne length" << std::endl;
+    mpv.add_distancereading(0, 3 * Length::METER,
+                            DistanceReading::ResultType::CHECKED);
 
 }
 TEST(MapPolarView, add_distancereadingTwo){
-    DistanceReading dist = DistanceReading(2*Length::METER, DistanceReading::ResultType::CHECKED);
+    DistanceReading dist = DistanceReading(2*Length::METER,
+                                           DistanceReading::ResultType::CHECKED);
     MapPolarView mpv = MapPolarView();
     mpv.add_distancereading(1, dist);
-    // std::map<int, DistanceReading> testmap = mpv.get_distances();
-    // std::cout << testmap.at(1).get_length()<< " add_distancereadingTwo length" << std::endl;
 }
 TEST(MapPolarView, rotate){
     MapPolarView mpv = MapPolarView();
-    DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
+    DistanceReading dist = DistanceReading(5*Length::METER,
+                                           DistanceReading::ResultType::CHECKED);
 
     mpv.add_distancereading(348, dist);
     mpv.add_distancereading(349, dist);
@@ -157,15 +161,18 @@ TEST(MapPolarView, get_distances) {
 //  Test match()
 //
 //  Test case for the match() function
-//  Create 2 MapPolarView's to compare. Create 2 different DistanceReading objects to use in testing.
+//  Create 2 MapPolarView's to compare. Create 2 different
+//  DistanceReading objects to use in testing.
 //  Fill the MapPolarView object and compare how many of their lists are the same.
 //  Add a wrong value and check again. Expect the value to not be 100%
 
 TEST(MapPolarView, Match) {
     MapPolarView mpv1 = MapPolarView();
     MapPolarView mpv2 = MapPolarView();
-    DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
-    DistanceReading dist2 = DistanceReading(4*Length::METER, DistanceReading::ResultType::CHECKED);
+    DistanceReading dist = DistanceReading(5*Length::METER,
+                                           DistanceReading::ResultType::CHECKED);
+    DistanceReading dist2 = DistanceReading(4*Length::METER,
+                                            DistanceReading::ResultType::CHECKED);
 
     mpv1.add_distancereading(0, dist);
     mpv1.add_distancereading(3, dist);
@@ -200,8 +207,10 @@ TEST(MapPolarView, find_best_match){
     MapPolarView mpv = MapPolarView();
     MapPolarView pv = MapPolarView();
 
-    DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
-    DistanceReading dist2 = DistanceReading(10*Length::METER, DistanceReading::ResultType::CHECKED);
+    DistanceReading dist = DistanceReading(5*Length::METER,
+                                           DistanceReading::ResultType::CHECKED);
+    DistanceReading dist2 = DistanceReading(10*Length::METER,
+                                            DistanceReading::ResultType::CHECKED);
 
     mpv.add_distancereading(0, dist);
     mpv.add_distancereading(3, dist);
@@ -224,8 +233,4 @@ TEST(MapPolarView, find_best_match){
     pv.rotate(20);
 
     std::tuple<int, double> result = mpv.find_best_match(pv);
-    // std::cout << "Rotate factor: " << std::get<0>(result) << "| Scale factor: " << std::get<1>(result) << std::endl;
-    // mpv.scale(get<1>(result));
-    // mpv.rotate(get<0>(result));
-    // std::cout << "Match: " <<mpv.match(pv) << "%" << std::endl;
 }

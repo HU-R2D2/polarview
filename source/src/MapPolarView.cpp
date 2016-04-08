@@ -157,9 +157,12 @@ MapPolarView MapPolarView::operator+=(MapPolarView v) {
     std::map<int, DistanceReading> tbadd = v.get_distances();
     for(int i = 0; i < 360; i++){
         DistanceReading & temp = readings.at(i);
-        if(temp.get_result_type() != DistanceReading::ResultType::CHECKED) {
+        if(temp.get_result_type() !=
+           DistanceReading::ResultType::CHECKED) {
             DistanceReading addtemp = tbadd.at(i);
-            if(addtemp.get_result_type() == DistanceReading::ResultType::CHECKED) {
+            
+            if(addtemp.get_result_type() ==
+               DistanceReading::ResultType::CHECKED) {
                 temp.set_length(addtemp.get_length());
                 temp.set_result_type(addtemp.get_result_type());
             }
@@ -173,12 +176,20 @@ MapPolarView MapPolarView::operator+(MapPolarView v) {
     return retPV += v;
 }
 
-void MapPolarView::add_distancereading(int angle, Length len, DistanceReading::ResultType type) {
+void MapPolarView::add_distancereading(int angle,
+                                       Length len,
+                                       DistanceReading::ResultType type
+                                      ) {
     if(readings.count(angle) > 0) {
         readings.at(angle).set_length(len);
         readings.at(angle).set_result_type(type);
     } else {
-		readings.insert(std::pair<int, DistanceReading>(angle, DistanceReading(len, type)));
+		readings.insert(std::pair<int, DistanceReading>(angle,
+                                                        DistanceReading(len,
+                                                                        type
+                                                                        )
+                                                        )
+                        );
 	}
 }
 
