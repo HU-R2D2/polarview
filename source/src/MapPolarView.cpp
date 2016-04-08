@@ -1,3 +1,34 @@
+////                                                                                                                                        
+// Roborescue
+//
+// \file MapPolarView.cpp
+// \date Created: 07-04-2016
+// \version 1.0.0
+//
+// \author Aydin Biber, Jasper van hulst, Christiaan van de Berg, Zehna van den Berg
+//
+// \section LICENSE
+// License: newBSD
+//
+// Copyright © 2016, HU University of Applied Sciences Utrecht.
+// All rights reserved.
+//
+// Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+// - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+// - Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+// - Neither the name of the HU University of Applied Sciences Utrecht nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+// "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE HU UNIVERSITY OF APPLIED SCIENCES UTRECHT
+// BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+// GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+// OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+////
 #include "../include/MapPolarView.hpp"
 #include "../include/DistanceReading.hpp"
 
@@ -36,51 +67,58 @@ void MapPolarView::rotate(int angle){
     // }
 
     // rotate v0.2
+    // std::cout << "SPIN SPIN SPIN SPIN" << std::endl;
     std::map<int, DistanceReading> buffer;
     for(int i = 0; i <= angle; i++){
         buffer.insert(std::pair<int,DistanceReading>(i, readings.at(readings.size()-1+i-angle) ));
     }
     for(int i = readings.size()-1; i > 0+angle; i--){
-        readings.at(i) = readings.at(i-1-angle);
+        readings.at(i) = readings.at(i-angle);
     }
     for(int i = 0; i < buffer.size(); i++){
         readings.at(i) = buffer.at(i);
-        // std::cout << "buffer:" << buffer.at(i).get_length() << " ";
-        // std::cout << "readings:"<< readings.at(i).get_length()<< " ";
+        // std::cout << "i:"<< i<< " buffer:" << buffer.at(i).get_length() << " " << std::endl;
+        // std::cout << "i:"<< i<< "readings:"<< readings.at(i).get_length()<< " "<< std::endl;
     }
+    // std::cout << "position 0: " << readings.at(0).get_length() << std::endl;
 }
 
 double MapPolarView::match(MapPolarView v) {
-    int c = 0;
+    double c = 0;
+    double len1, len2;
+    double offset = 0.0001;
     for(int i = 0; i < 360; i++) {
-        //Length len1 = this->get_distances.at(i).get_length()
-        Length len1 = readings.at(i).get_length();
-        Length len2 = v.get_distances().at(i).get_length();
+        len1 = (readings.at(i).get_length() / Length::METER);
+        len2 = (v.get_distances().at(i).get_length() / Length::METER);
 
-        const Length offset(len1 / 10000);
-
-        if(((len1 - offset) < len2) && (len2 < (len1 + offset))) {
+        if(((len1  - offset) < len2) && (len2 < (len1  + offset))) {
             c++;
         }
     }
+    // std::cout << (c/360)*100 << "%" << std::endl;
     return (c/360)*100;
 }
 
 std::tuple<int, double> MapPolarView::find_best_match(MapPolarView v){
-    int rotateFactor = 10;
+    int rotateFactor = 1 ;
     double scaleFactor = 0.5;
+    double preifmatch;
 
     int bestRotation;
     double bestScale;
     double bestMatch;
     std::map<int, DistanceReading> readingsBackup = readings;
-    for(double d = 0.0; d < 2 ; d+=scaleFactor){
-        scale(d+scaleFactor);
+    for(double d = scaleFactor; d <= 2 ; d+=scaleFactor){
+        scale(d);
         // std::cout << d << std::endl;
         for(int i = 0; i < 360/rotateFactor; i++){
-            if(match(v) > bestMatch){
-                bestScale = d;
+            preifmatch = match(v);
+            // std::cout << "Match results: " << preifmatch << std::endl;
+            if(preifmatch > bestMatch){
                 bestRotation = i;
+                bestMatch = preifmatch;
+                bestScale = d;
+
             }
             rotate(rotateFactor);
         }
