@@ -58,15 +58,16 @@
 
 MapPolarView::MapPolarView() {
     for(int i = 0; i < 360; i++) {
-        readings.insert(std::pair<int, DistanceReading>
-                        (i, DistanceReading(
+        readings.insert(std::pair<int, DistanceReading>(
+							i, 
+							DistanceReading(
                                 DistanceReading(
                                     Length(),
                                     DistanceReading::ResultType::DIDNT_CHECK
                                 )
                             )
                         )
-                       );
+                        );
     }
 }
 

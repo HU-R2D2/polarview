@@ -105,17 +105,29 @@ TEST(MapPolarView, addOperator){
 	EXPECT_TRUE(length_range(cMap.at(30).get_length(), len2));
 }
 
+//DONE
 TEST(MapPolarView, add_distancereadingOne){
     MapPolarView mpv = MapPolarView();
-    mpv.add_distancereading(0, 3 * Length::METER,
+	Length len1 = 3 * Length::METER;
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	
+	EXPECT_TRUE(length_range(map.at(0).get_length(), Length()));
+    mpv.add_distancereading(0, len1,
                             DistanceReading::ResultType::CHECKED);
+	EXPECT_TRUE(length_range(map.at(0).get_length(), len1));
 
 }
+//DONE
 TEST(MapPolarView, add_distancereadingTwo){
-    DistanceReading dist = DistanceReading(2*Length::METER,
-                                           DistanceReading::ResultType::CHECKED);
     MapPolarView mpv = MapPolarView();
-    mpv.add_distancereading(1, dist);
+	Length len1 = 3 * Length::METER;
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	
+	EXPECT_TRUE(length_range(map.at(0).get_length(), Length()));
+	DistanceReading distRead(len1,
+                            DistanceReading::ResultType::CHECKED);
+    mpv.add_distancereading(0, distRead);
+	EXPECT_TRUE(length_range(map.at(0).get_length(), len1));
 }
 //DONE
 TEST(MapPolarView, rotate){
@@ -147,6 +159,9 @@ TEST(MapPolarView, rotate){
 	for(int i = 348; i < 360; i++){
 		EXPECT_TRUE(length_range(map.at(i).get_length(), len1));
 	}
+	for(int i = 6; i < 15; i++){
+		EXPECT_TRUE(length_range(map.at(i).get_length(), Length()));
+	}
 	
 	mpv.rotate(10);
 	
@@ -164,10 +179,26 @@ TEST(MapPolarView, rotate){
 // Test get_distances()
 //  Test case for the get_distances() function
 //  Create a MapPolarView object and get it's std::map.
-
+//DONE
 TEST(MapPolarView, get_distances) {
-    MapPolarView v;
-    std::map<int, DistanceReading> m = v.get_distances();
+    MapPolarView mpv;
+    std::map<int, DistanceReading> map = mpv.get_distances();
+	std::map<int, DistanceReading> testMap;
+	for(int i = 0; i < 360; i++) {
+		testMap.insert(std::pair<int, DistanceReading>(
+			i, 
+			DistanceReading(
+				DistanceReading(
+					Length(),
+					DistanceReading::ResultType::DIDNT_CHECK
+					)
+				)
+			)
+		);
+	}
+	for(int i = 0; i < 360; i++){
+		EXPECT_TRUE(length_range(map.at(i).get_length(), testMap.at(i).get_length()));
+	}
 }
 
 //  Test match()
@@ -177,7 +208,7 @@ TEST(MapPolarView, get_distances) {
 //  DistanceReading objects to use in testing.
 //  Fill the MapPolarView object and compare how many of their lists are the same.
 //  Add a wrong value and check again. Expect the value to not be 100%
-
+//DONE
 TEST(MapPolarView, Match) {
     MapPolarView mpv1 = MapPolarView();
     MapPolarView mpv2 = MapPolarView();
@@ -214,7 +245,7 @@ TEST(MapPolarView, Match) {
     map1 = mpv1.get_distances();
     EXPECT_NE(mpv1.match(mpv2), 100);
 }
-
+//DONE
 TEST(MapPolarView, find_best_match){
     MapPolarView mpv = MapPolarView();
     MapPolarView pv = MapPolarView();
@@ -245,4 +276,6 @@ TEST(MapPolarView, find_best_match){
     pv.rotate(20);
 
     std::tuple<int, double> result = mpv.find_best_match(pv);
+	std::tuple<int, double> testResult = std::make_tuple(20, 2.0);
+	EXPECT_EQ(result, testResult);
 }
