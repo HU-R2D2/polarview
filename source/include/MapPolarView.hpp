@@ -33,11 +33,12 @@
 #define _MAPPOLARVIEW_H
 
 #include "DistanceReading.hpp"
+#include "PolarView.hpp"
 #include <map>
 #include <algorithm>
 #include <tuple>
 
-class MapPolarView{
+class MapPolarView : public PolarView{
 public:
     //Default constructor
     MapPolarView();
