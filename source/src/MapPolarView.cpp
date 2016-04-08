@@ -82,7 +82,7 @@ std::tuple<int, double> MapPolarView::find_best_match(MapPolarView v){
         // std::cout << d << std::endl;
         for(int i = 0; i < 360/rotateFactor; i++){
             preifmatch = match(v);
-            std::cout << "Match results: " << preifmatch << std::endl;
+            // std::cout << "Match results: " << preifmatch << std::endl;
             if(preifmatch > bestMatch){
                 bestRotation = i;
                 bestMatch = preifmatch;

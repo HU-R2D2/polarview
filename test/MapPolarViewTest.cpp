@@ -132,10 +132,10 @@ TEST(MapPolarView, rotate){
     mpv.add_distancereading(5, dist);
     mpv.rotate(10);
 
-    std::map<int,DistanceReading> testmap = mpv.get_distances();
-    for(int i = 0; i < 30; i++){
-        std::cout << i<< ":" << testmap.at(i).get_length() << " ";
-    }
+    // std::map<int,DistanceReading> testmap = mpv.get_distances();
+    // for(int i = 0; i < 30; i++){
+    //     std::cout << i<< ":" << testmap.at(i).get_length() << " ";
+    // }
     // std::cout << " <<< Post-rotate" << std::endl;
 }
 
@@ -218,8 +218,8 @@ TEST(MapPolarView, find_best_match){
     pv.rotate(20);
 
     std::tuple<int, double> result = mpv.find_best_match(pv);
-    std::cout << "Rotate factor: " << std::get<0>(result) << "| Scale factor: " << std::get<1>(result) << std::endl;
-    mpv.scale(get<1>(result));
-    mpv.rotate(get<0>(result));
-    std::cout << "Match: " <<mpv.match(pv) << "%" << std::endl;
+    // std::cout << "Rotate factor: " << std::get<0>(result) << "| Scale factor: " << std::get<1>(result) << std::endl;
+    // mpv.scale(get<1>(result));
+    // mpv.rotate(get<0>(result));
+    // std::cout << "Match: " <<mpv.match(pv) << "%" << std::endl;
 }
