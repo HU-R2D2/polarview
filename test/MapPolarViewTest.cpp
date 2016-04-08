@@ -2,6 +2,12 @@
 #include "../source/include/MapPolarView.hpp"
 #include <stdlib.h>
 
+//Temporary implemented to check 2 lengths with a offset.
+//Will be replaced by ADT comparator lateron.
+bool length_range(Length len1, Length len2, double offset = 0.0001){
+	return ((len1  - offset) < len2) && (len2 < (len1  + offset));
+}
+
 TEST(MapPolarView, Constructor){
     MapPolarView mpv = MapPolarView();
 }
@@ -22,9 +28,9 @@ TEST(MapPolarView, Collapse){
 	std::map<int, DistanceReading>& map = mpv.get_distances();
 	mpv.collapse();
 
-	// EXPECT_EQ(map.at(10).get_length(), distRead1.get_length()) << "got overridden by outside value";
-	// EXPECT_EQ(map.at(20).get_length(), distRead1.get_length()) << "check of kept value";
-	// EXPECT_EQ(map.at(15).get_length(), distRead2.get_length()) << "check if collapse value addded";
+	EXPECT_TRUE(length_range(map.at(10).get_length(), distRead1.get_length())) << "got overridden by outside value";
+	EXPECT_TRUE(length_range(map.at(20).get_length(), distRead1.get_length())) << "check of kept value";
+	EXPECT_TRUE(length_range(map.at(15).get_length(), distRead2.get_length())) << "check if collapse value addded";
 
 	EXPECT_FALSE(map.count(375) > 0) << "outside value has been deleted";
 }
@@ -38,10 +44,10 @@ TEST(MapPolarView, Scale){
 	std::map<int, DistanceReading>& map = mpv.get_distances();
 
     mpv.scale(2); // multiplication test
-	// EXPECT_EQ(map.at(10).get_length(), len1 * 2);
+	EXPECT_TRUE(length_range(map.at(10).get_length(), len1 * 2));
 
     mpv.scale(0.5); // division test
-	// EXPECT_EQ(map.at(10).get_length(), len1);
+	EXPECT_TRUE(length_range(map.at(10).get_length(), len1));
 }
 
 TEST(MapPolarView, addAssignOperator){
@@ -62,9 +68,9 @@ TEST(MapPolarView, addAssignOperator){
 
 	std::map<int, DistanceReading>& map = mpv.get_distances();
 
-	// EXPECT_EQ(map.at(10).get_length(), len1);
-	// EXPECT_EQ(map.at(20).get_length(), len1);
-	// EXPECT_EQ(map.at(30).get_length(), len2);
+	EXPECT_TRUE(length_range(map.at(10).get_length(), len1));
+	EXPECT_TRUE(length_range(map.at(20).get_length(), len1));
+	EXPECT_TRUE(length_range(map.at(30).get_length(), len2));
 }
 
 TEST(MapPolarView, addOperator){
@@ -84,14 +90,14 @@ TEST(MapPolarView, addOperator){
 	MapPolarView copyMap = mpv + mv;
 	std::map<int, DistanceReading>& map = mpv.get_distances();
 
-	// EXPECT_EQ(map.at(10).get_length(), len1);
-	// EXPECT_EQ(map.at(20).get_length(), len1);
-	// EXPECT_EQ(map.at(30).get_length(), Length());
+	EXPECT_TRUE(length_range(map.at(10).get_length(), len1));
+	EXPECT_TRUE(length_range(map.at(20).get_length(), len1));
+	EXPECT_TRUE(length_range(map.at(30).get_length(), Length()));
 
 	std::map<int, DistanceReading>& cMap = copyMap.get_distances();
-	// EXPECT_EQ(cMap.at(10).get_length(), len1);
-	// EXPECT_EQ(cMap.at(20).get_length(), len1);
-	// EXPECT_EQ(cMap.at(30).get_length(), len2);
+	EXPECT_TRUE(length_range(cMap.at(10).get_length(), len1));
+	EXPECT_TRUE(length_range(cMap.at(20).get_length(), len1));
+	EXPECT_TRUE(length_range(cMap.at(30).get_length(), len2));
 }
 
 TEST(MapPolarView, add_distancereadingOne){
