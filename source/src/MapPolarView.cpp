@@ -1,4 +1,9 @@
-////
+//  += operator
+//
+//  Adds 2 ArrayPolarviews together. This does not add
+//  two values together but rather 'merges' the two PolarViews
+//  \param MapPolarView
+//  \return////
 // Roborescue
 //
 // \file DistanceReading.hpp

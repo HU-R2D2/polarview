@@ -5,19 +5,19 @@
 //Temporary implemented to check 2 lengths with a offset.
 //Will be replaced by ADT comparator lateron.
 bool length_range(Length len1, Length len2, double offset = 0.0001){
-	return ((len1  - offset) < len2) && (len2 < (len1  + offset));
+	return ((len1  - (offset * Length::METER)) < len2) && (len2 < (len1  + (offset * Length::METER)));
 }
 
 TEST(MapPolarView, Constructor){
     MapPolarView mpv = MapPolarView();
 }
-
+//DONE
 TEST(MapPolarView, Collapse){
 	MapPolarView mpv = MapPolarView();
-	DistanceReading distRead1(Length(6*Length::METER),
-                              DistanceReading::ResultType::CHECKED);
-	DistanceReading distRead2(Length(3*Length::METER),
-                              DistanceReading::ResultType::CHECKED);
+	Length len1 = 6*Length::METER;
+	Length len2 = 3*Length::METER;
+	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
+	DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
 
 	//Checks it doesn't override the same angle which already has a value
 	mpv.add_distancereading(10, distRead1);
@@ -39,10 +39,10 @@ TEST(MapPolarView, Collapse){
 
 	EXPECT_FALSE(map.count(375) > 0) << "outside value has been deleted";
 }
-
+//DONE
 TEST(MapPolarView, Scale){
     MapPolarView mpv = MapPolarView();
-	Length len1 = (6*Length::METER);
+	Length len1 = 6*Length::METER;
 	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
 	mpv.add_distancereading(10, distRead1);
 
@@ -54,12 +54,12 @@ TEST(MapPolarView, Scale){
     mpv.scale(0.5); // division test
 	EXPECT_TRUE(length_range(map.at(10).get_length(), len1));
 }
-
+//DONE
 TEST(MapPolarView, addAssignOperator){
     MapPolarView mpv = MapPolarView();
     MapPolarView mv = MapPolarView();
-	Length len1(6*Length::METER);
-	Length len2(3*Length::METER);
+	Length len1 = 6*Length::METER;
+	Length len2 = 3*Length::METER;
 	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
 	DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
 
@@ -77,12 +77,12 @@ TEST(MapPolarView, addAssignOperator){
 	EXPECT_TRUE(length_range(map.at(20).get_length(), len1));
 	EXPECT_TRUE(length_range(map.at(30).get_length(), len2));
 }
-
+//DONE
 TEST(MapPolarView, addOperator){
     MapPolarView mpv = MapPolarView();
     MapPolarView mv = MapPolarView();
-	Length len1(6*Length::METER);
-	Length len2(3*Length::METER);
+	Length len1 = 6*Length::METER;
+	Length len2 = 3*Length::METER;
 	DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
 	DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
 
@@ -117,10 +117,16 @@ TEST(MapPolarView, add_distancereadingTwo){
     MapPolarView mpv = MapPolarView();
     mpv.add_distancereading(1, dist);
 }
+//DONE
 TEST(MapPolarView, rotate){
     MapPolarView mpv = MapPolarView();
+<<<<<<< HEAD
     DistanceReading dist = DistanceReading(5*Length::METER,
                                            DistanceReading::ResultType::CHECKED);
+=======
+	Length len1 = 5*Length::METER;
+    DistanceReading dist = DistanceReading(len1, DistanceReading::ResultType::CHECKED);
+>>>>>>> f1479e477cc98669f22abf16a7f0c9e2b17f30eb
 
     mpv.add_distancereading(348, dist);
     mpv.add_distancereading(349, dist);
@@ -140,13 +146,24 @@ TEST(MapPolarView, rotate){
     mpv.add_distancereading(3, dist);
     mpv.add_distancereading(4, dist);
     mpv.add_distancereading(5, dist);
-    mpv.rotate(10);
-
-    // std::map<int,DistanceReading> testmap = mpv.get_distances();
-    // for(int i = 0; i < 30; i++){
-    //     std::cout << i<< ":" << testmap.at(i).get_length() << " ";
-    // }
-    // std::cout << " <<< Post-rotate" << std::endl;
+	
+	std::map<int, DistanceReading>& map = mpv.get_distances();
+	
+	for(int i = 348; i < 360; i++){
+		EXPECT_TRUE(length_range(map.at(i).get_length(), len1));
+	}
+	
+	mpv.rotate(10);
+	
+	for(int i = 348; i < 358; i++){
+		EXPECT_TRUE(length_range(map.at(i).get_length(), Length()));
+	}
+	
+	EXPECT_TRUE(length_range(map.at(358).get_length(), len1));
+	EXPECT_TRUE(length_range(map.at(359).get_length(), len1));
+	for(int i = 0; i < 15; i++){
+		EXPECT_TRUE(length_range(map.at(i).get_length(), len1));
+	}
 }
 
 // Test get_distances()
