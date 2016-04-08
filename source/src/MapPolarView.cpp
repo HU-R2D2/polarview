@@ -36,18 +36,20 @@ void MapPolarView::rotate(int angle){
     // }
 
     // rotate v0.2
+    // std::cout << "SPIN SPIN SPIN SPIN" << std::endl;
     std::map<int, DistanceReading> buffer;
     for(int i = 0; i <= angle; i++){
         buffer.insert(std::pair<int,DistanceReading>(i, readings.at(readings.size()-1+i-angle) ));
     }
     for(int i = readings.size()-1; i > 0+angle; i--){
-        readings.at(i) = readings.at(i-1-angle);
+        readings.at(i) = readings.at(i-angle);
     }
     for(int i = 0; i < buffer.size(); i++){
         readings.at(i) = buffer.at(i);
-        // std::cout << "buffer:" << buffer.at(i).get_length() << " ";
-        // std::cout << "readings:"<< readings.at(i).get_length()<< " ";
+        // std::cout << "i:"<< i<< " buffer:" << buffer.at(i).get_length() << " " << std::endl;
+        // std::cout << "i:"<< i<< "readings:"<< readings.at(i).get_length()<< " "<< std::endl;
     }
+    // std::cout << "position 0: " << readings.at(0).get_length() << std::endl;
 }
 
 double MapPolarView::match(MapPolarView v) {
@@ -57,29 +59,35 @@ double MapPolarView::match(MapPolarView v) {
     for(int i = 0; i < 360; i++) {
         len1 = (readings.at(i).get_length() / Length::METER);
         len2 = (v.get_distances().at(i).get_length() / Length::METER);
-        
+
         if(((len1  - offset) < len2) && (len2 < (len1  + offset))) {
             c++;
         }
     }
+    // std::cout << (c/360)*100 << "%" << std::endl;
     return (c/360)*100;
 }
 
 std::tuple<int, double> MapPolarView::find_best_match(MapPolarView v){
-    int rotateFactor = 10;
+    int rotateFactor = 1 ;
     double scaleFactor = 0.5;
+    double preifmatch;
 
     int bestRotation;
     double bestScale;
     double bestMatch;
     std::map<int, DistanceReading> readingsBackup = readings;
-    for(double d = 0.0; d < 2 ; d+=scaleFactor){
-        scale(d+scaleFactor);
+    for(double d = scaleFactor; d <= 2 ; d+=scaleFactor){
+        scale(d);
         // std::cout << d << std::endl;
         for(int i = 0; i < 360/rotateFactor; i++){
-            if(match(v) > bestMatch){
-                bestScale = d;
+            preifmatch = match(v);
+            std::cout << "Match results: " << preifmatch << std::endl;
+            if(preifmatch > bestMatch){
                 bestRotation = i;
+                bestMatch = preifmatch;
+                bestScale = d;
+
             }
             rotate(rotateFactor);
         }

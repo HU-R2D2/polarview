@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../source/include/MapPolarView.hpp"
+#include <stdlib.h>
 
 TEST(MapPolarView, Constructor){
     MapPolarView mpv = MapPolarView();
@@ -111,18 +112,30 @@ TEST(MapPolarView, rotate){
     MapPolarView mpv = MapPolarView();
     DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
 
+    mpv.add_distancereading(348, dist);
+    mpv.add_distancereading(349, dist);
+    mpv.add_distancereading(350, dist);
+    mpv.add_distancereading(351, dist);
+    mpv.add_distancereading(352, dist);
+    mpv.add_distancereading(353, dist);
     mpv.add_distancereading(354, dist);
     mpv.add_distancereading(355, dist);
     mpv.add_distancereading(356, dist);
     mpv.add_distancereading(357, dist);
     mpv.add_distancereading(358, dist);
     mpv.add_distancereading(359, dist);
-    mpv.rotate(5);
-    // std::map<int,DistanceReading> testmap = mpv.get_distances();
+    mpv.add_distancereading(0, dist);
+    mpv.add_distancereading(1, dist);
+    mpv.add_distancereading(2, dist);
+    mpv.add_distancereading(3, dist);
+    mpv.add_distancereading(4, dist);
+    mpv.add_distancereading(5, dist);
+    mpv.rotate(10);
 
-    // for(int i = 0; i < 15; i++){
-    //     std::cout << i<< ":" << testmap.at(i).get_length() << " ";
-    // }
+    std::map<int,DistanceReading> testmap = mpv.get_distances();
+    for(int i = 0; i < 30; i++){
+        std::cout << i<< ":" << testmap.at(i).get_length() << " ";
+    }
     // std::cout << " <<< Post-rotate" << std::endl;
 }
 
@@ -181,5 +194,32 @@ TEST(MapPolarView, find_best_match){
     MapPolarView mpv = MapPolarView();
     MapPolarView pv = MapPolarView();
 
-    mpv.find_best_match(pv);
+    DistanceReading dist = DistanceReading(5*Length::METER, DistanceReading::ResultType::CHECKED);
+    DistanceReading dist2 = DistanceReading(10*Length::METER, DistanceReading::ResultType::CHECKED);
+
+    mpv.add_distancereading(0, dist);
+    mpv.add_distancereading(3, dist);
+    mpv.add_distancereading(5, dist);
+    mpv.add_distancereading(6, dist);
+    mpv.add_distancereading(356, dist);
+    mpv.add_distancereading(357, dist);
+    mpv.add_distancereading(358, dist);
+    mpv.add_distancereading(359, dist);
+
+    pv.add_distancereading(0, dist2);
+    pv.add_distancereading(3, dist2);
+    pv.add_distancereading(5, dist2);
+    pv.add_distancereading(6, dist2);
+    pv.add_distancereading(356, dist2);
+    pv.add_distancereading(357, dist2);
+    pv.add_distancereading(358, dist2);
+    pv.add_distancereading(359, dist2);
+
+    pv.rotate(20);
+
+    std::tuple<int, double> result = mpv.find_best_match(pv);
+    std::cout << "Rotate factor: " << std::get<0>(result) << "| Scale factor: " << std::get<1>(result) << std::endl;
+    mpv.scale(get<1>(result));
+    mpv.rotate(get<0>(result));
+    std::cout << "Match: " <<mpv.match(pv) << "%" << std::endl;
 }
