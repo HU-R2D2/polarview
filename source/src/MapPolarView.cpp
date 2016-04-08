@@ -99,7 +99,7 @@ void MapPolarView::rotate(int angle){
 double MapPolarView::match(MapPolarView v) {
     double c = 0;
     double len1, len2;
-    double offset = 0.0001;
+    double offset = 0.0001; // Precise value to measure by
     for(int i = 0; i < 360; i++) {
         len1 = (readings.at(i).get_length() / Length::METER);
         len2 = (v.get_distances().at(i).get_length() / Length::METER);
@@ -112,8 +112,8 @@ double MapPolarView::match(MapPolarView v) {
 }
 
 std::tuple<int, double> MapPolarView::find_best_match(MapPolarView v) {
-    int rotateFactor = 1 ;
-    double scaleFactor = 0.5;
+    int rotateFactor = 1;
+    double scaleFactor = 0.5; // Match with steps op 0.5
     double preifmatch;
 
     int bestRotation;

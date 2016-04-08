@@ -90,10 +90,21 @@ public:
 
     //Multiplies the distances with a given multiplier
     MapPolarView scale(double frac);
-
-    //Adds 2 ArrayPolarviews together. This does not add
-    //two values together but rather 'merges' the two PolarViews
+    
+    //  += operator
+    //
+    //  Adds 2 ArrayPolarviews together. This does not add
+    //  two values together but rather 'merges' the two PolarViews
+    //  \param MapPolarView
+    //  \return
     MapPolarView operator+=(MapPolarView v);
+    
+    //  + operator
+    //
+    //  Adds 2 ArrayPolarviews together. This does not add
+    //  two values together but rather 'merges' the two PolarViews
+    //  \param MapPolarView
+    //  \return
     MapPolarView operator+(MapPolarView v);
 
     void add_distancereading(int angle,
