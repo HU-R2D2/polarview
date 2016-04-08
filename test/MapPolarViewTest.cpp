@@ -120,13 +120,8 @@ TEST(MapPolarView, add_distancereadingTwo){
 //DONE
 TEST(MapPolarView, rotate){
     MapPolarView mpv = MapPolarView();
-<<<<<<< HEAD
-    DistanceReading dist = DistanceReading(5*Length::METER,
-                                           DistanceReading::ResultType::CHECKED);
-=======
 	Length len1 = 5*Length::METER;
     DistanceReading dist = DistanceReading(len1, DistanceReading::ResultType::CHECKED);
->>>>>>> f1479e477cc98669f22abf16a7f0c9e2b17f30eb
 
     mpv.add_distancereading(348, dist);
     mpv.add_distancereading(349, dist);
