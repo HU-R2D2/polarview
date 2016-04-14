@@ -53,12 +53,13 @@
 
 #include "DistanceReading.hpp"
 #include "../../../adt/source/include/Angle.hpp"
+#include "PolarView.hpp"
 #include <map>
 #include <algorithm>
 #include <tuple>
 #include <vector>
 
-class MapPolarView{
+class MapPolarView : public PolarView{
 public:
     //Default constructor
     MapPolarView();
@@ -71,7 +72,7 @@ public:
     // However: when for example the 16th degree
     // wasn't captured and the 376th is available,
     // it will use that value instead.
-    MapPolarView collapse();
+    PolarView& collapse();
 
     //Rotates the PolarView with a given angle.
     void rotate(Angle angle);
@@ -79,18 +80,18 @@ public:
     //Matches the PolarView with a given PolarView
     //Returns a value that is a perentage that indicates how much
     //the PolarViews are alike.
-    double match(MapPolarView v);
+    double match(PolarView& v);
 
     //Finds the best match with the given PolarView.
     //Returns the rotation and the multiplication factor
     //that best matches in a std::tuple
-    std::tuple<Angle, double> find_best_match(MapPolarView v);
+    std::tuple<Angle, double> find_best_match(PolarView& v);
 
     //Returns all the distance readings in the polarview
     std::map<int, DistanceReading> & get_distances();
 
     //Multiplies the distances with a given multiplier
-    MapPolarView scale(double frac);
+    PolarView& scale(double frac);
 
     //  += operator
     //
@@ -98,7 +99,7 @@ public:
     //  two values together but rather 'merges' the two PolarViews
     //  \param MapPolarView
     //  \return
-    MapPolarView operator+=(MapPolarView v);
+    PolarView& operator+=(PolarView& v);
 
     //  + operator
     //
@@ -106,7 +107,7 @@ public:
     //  two values together but rather 'merges' the two PolarViews
     //  \param MapPolarView
     //  \return
-    MapPolarView operator+(MapPolarView v);
+    PolarView& operator+(PolarView& v);
 
     void add_distancereading(Angle angle, Length len, DistanceReading::ResultType type);
     void add_distancereading(Angle angle, DistanceReading dist);

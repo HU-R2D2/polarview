@@ -66,7 +66,7 @@ MapPolarView::MapPolarView() {
     }
 }
 
-MapPolarView MapPolarView::collapse() {
+PolarView& MapPolarView::collapse() {
 	std::vector<int> keyValues;
 	for(auto & angle: readings) {
 		if(angle.first > 359){
@@ -99,7 +99,7 @@ void MapPolarView::rotate(Angle angle){
     }
 }
 
-double MapPolarView::match(MapPolarView v) {
+double MapPolarView::match(PolarView& v) {
     double c = 0;
     double len1, len2;
     double offset = 0.0001; // Precise value to measure by
@@ -114,7 +114,7 @@ double MapPolarView::match(MapPolarView v) {
     return (c/360)*100;
 }
 
-std::tuple<Angle, double> MapPolarView::find_best_match(MapPolarView v){
+std::tuple<Angle, double> MapPolarView::find_best_match(PolarView& v){
     int rotateFactor = 1 ;
     double scaleFactor = 0.5;
     double preifmatch;
@@ -149,7 +149,7 @@ std::map<int, DistanceReading> & MapPolarView::get_distances() {
 
     // std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
 
-MapPolarView MapPolarView::scale(double frac) {
+PolarView& MapPolarView::scale(double frac) {
     for(int i = 0; i < 360; i++) {
         DistanceReading & temp = readings.at(i);
         temp.set_length(temp.get_length() * frac);
@@ -158,7 +158,7 @@ MapPolarView MapPolarView::scale(double frac) {
 }
 
 // At the moment it assumes both PolarViews have the same starting point
-MapPolarView MapPolarView::operator+=(MapPolarView v) {
+PolarView& MapPolarView::operator+=(PolarView& v) {
     std::map<int, DistanceReading> tbadd = v.get_distances();
     for(int i = 0; i < 360; i++){
         DistanceReading & temp = readings.at(i);
@@ -176,7 +176,7 @@ MapPolarView MapPolarView::operator+=(MapPolarView v) {
     return (*this);
 }
 
-MapPolarView MapPolarView::operator+(MapPolarView v) {
+PolarView& MapPolarView::operator+(PolarView& v) {
     MapPolarView retPV = (*this);
     return retPV += v;
 }
