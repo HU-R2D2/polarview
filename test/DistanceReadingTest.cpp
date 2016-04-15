@@ -10,7 +10,7 @@
 
 TEST(DistanceReading, SetResultType) {
 
-    Length len;
+    r2d2::Length len;
 
     DistanceReading a(DistanceReading(len,
                                       DistanceReading::ResultType::DIDNT_CHECK));
@@ -31,7 +31,7 @@ TEST(DistanceReading, SetResultType) {
 //  against ResultType objects
 
 TEST(DistanceReading, GetResultType) {
-    Length len;
+    r2d2::Length len;
 
     DistanceReading a(DistanceReading(len,
                                       DistanceReading::ResultType::DIDNT_CHECK));
@@ -54,20 +54,20 @@ TEST(DistanceReading, GetResultType) {
  // to see if 2 length's are equal
 
 TEST(DistanceReading, SetDistance) {
-    Length len1(200 * Length::METER);
-    Length len2(200 * Length::METER);
+    r2d2::Length len1(200 * r2d2::Length::METER);
+    r2d2::Length len2(200 * r2d2::Length::METER);
 
     DistanceReading a(DistanceReading(len2,
                                       DistanceReading::ResultType::DIDNT_CHECK));
-    Length tempmax(a.get_length());
+    r2d2::Length tempmax(a.get_length());
     // Extremely precise offset for measurement
-    const Length offset(len1 / (1000 * 1000 * 1000));
+    const r2d2::Length offset(len1 / (1000 * 1000 * 1000));
 
     // Lengths are both 200, so in range
     EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 
     // Set the length to a different value
-    a.set_length(201 * Length::METER);
+    a.set_length(201 * r2d2::Length::METER);
     tempmax = a.get_length();
 
     // Length is no longer in range of 200, so it should be false
@@ -81,14 +81,14 @@ TEST(DistanceReading, SetDistance) {
 //  Check if this length is within range of another length.
 
 TEST(DistanceReading, GetDistance) {
-    Length len1(200 * Length::METER);
-    Length len2(200.01 * Length::METER);
+    r2d2::Length len1(200 * r2d2::Length::METER);
+    r2d2::Length len2(200.01 * r2d2::Length::METER);
 
     DistanceReading a(DistanceReading(len2,
                                       DistanceReading::ResultType::DIDNT_CHECK));
-    Length tempmax(a.get_length());
+    r2d2::Length tempmax(a.get_length());
 
-    const Length offset(len1 / 10000);
+    const r2d2::Length offset(len1 / 10000);
 
     EXPECT_TRUE(((len1 - offset) < tempmax) && (tempmax < (len1 + offset)));
 }

@@ -62,7 +62,7 @@ public:
     };
 
     //  DistanceReading constructor
-    DistanceReading(Length len, ResultType type);
+    DistanceReading(r2d2::Length len, ResultType type);
 
     //  set_result_type
     //
@@ -83,16 +83,16 @@ public:
     //  Setter for the Length object
     //  \param Length
     //  \return
-    void set_length(Length len);
+    void set_length(r2d2::Length len);
 
     //  get_distance
     //
     //  Getter for the Length object
     //  \param
     //  \return Length length
-    Length & get_length();
+    r2d2::Length & get_length();
 private:
-    Length length;
+    r2d2::Length length;
     ResultType type;
 };
 

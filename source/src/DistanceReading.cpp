@@ -50,7 +50,7 @@
 ////
 #include "../include/DistanceReading.hpp"
 
-DistanceReading::DistanceReading(Length len, ResultType type) :
+DistanceReading::DistanceReading(r2d2::Length len, ResultType type) :
 	length(len), type(type)
 {
     
@@ -64,10 +64,10 @@ DistanceReading::ResultType DistanceReading::get_result_type() {
 	return this->type;
 }
 
-void DistanceReading::set_length(Length l) {
+void DistanceReading::set_length(r2d2::Length l) {
 	this->length = l;
 }
 
-Length & DistanceReading::get_length() {
+r2d2::Length & DistanceReading::get_length() {
 	return length;
 }

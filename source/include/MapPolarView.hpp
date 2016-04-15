@@ -75,7 +75,7 @@ public:
     PolarView& collapse();
 
     //Rotates the PolarView with a given angle.
-    void rotate(Angle angle);
+    void rotate(r2d2::Angle angle);
 
     //Matches the PolarView with a given PolarView
     //Returns a value that is a perentage that indicates how much
@@ -85,7 +85,7 @@ public:
     //Finds the best match with the given PolarView.
     //Returns the rotation and the multiplication factor
     //that best matches in a std::tuple
-    std::tuple<Angle, double> find_best_match(PolarView& v);
+    std::tuple<r2d2::Angle, double> find_best_match(PolarView& v);
 
     //Returns all the distance readings in the polarview
     std::map<int, DistanceReading> & get_distances();
@@ -109,8 +109,8 @@ public:
     //  \return
     PolarView& operator+(PolarView& v);
 
-    void add_distancereading(Angle angle, Length len, DistanceReading::ResultType type);
-    void add_distancereading(Angle angle, DistanceReading dist);
+    void add_distancereading(r2d2::Angle angle, r2d2::Length len, DistanceReading::ResultType type);
+    void add_distancereading(r2d2::Angle angle, DistanceReading dist);
 
 private:
     std::map <int, DistanceReading> readings;
