@@ -10,7 +10,7 @@ public:
 
     virtual std::tuple<r2d2::Angle, double> find_best_match(PolarView& v) = 0;
 
-    virtual std::map<int, DistanceReading> & get_distances() = 0;
+    virtual std::map<r2d2::Angle, DistanceReading> & get_distances() = 0;
 
     virtual PolarView& scale(double frac) = 0;
 

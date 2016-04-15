@@ -53,8 +53,8 @@
 
 MapPolarView::MapPolarView() {
     for(int i = 0; i < 360; i++) {
-        readings.insert(std::pair<int, DistanceReading>(
-							i,
+        readings.insert(std::pair<r2d2::Angle, DistanceReading>(
+							r2d2::Angle(i * r2d2::Angle::deg),
 							DistanceReading(
                                 DistanceReading(
                                     r2d2::Length(),
@@ -66,16 +66,16 @@ MapPolarView::MapPolarView() {
     }
 }
 
-PolarView& MapPolarView::collapse() {
-	std::vector<int> keyValues;
-	for(auto & angle: readings) {
-		if(angle.first > 359){
+PolarView& MapPolarView::collapse(){
+	std::vector<r2d2::Angle> keyValues;
+	for(const auto & angle: readings) {
+		if(r2d2::Angle(angle.first).get_angle() > 359){
 			keyValues.push_back(angle.first);
 		}
 	}
 	for(auto & extraAngle: keyValues) {
 		DistanceReading & tbAdd = readings.at(extraAngle);
-		DistanceReading & temp = readings.at(extraAngle % 360);
+		DistanceReading & temp = readings.at(r2d2::Angle(((int)(extraAngle.get_angle()) % 360)* r2d2::Angle::deg));
 		if(temp.get_result_type() != DistanceReading::ResultType::CHECKED) {
 			temp.set_length(tbAdd.get_length());
 		}
@@ -87,15 +87,15 @@ PolarView& MapPolarView::collapse() {
 void MapPolarView::rotate(r2d2::Angle angle){
     int degrees = round(angle.get_angle() * (180 / M_PI));
 
-    std::map<int, DistanceReading> buffer;
+    std::map<r2d2::Angle, DistanceReading> buffer;
     for(int i = 0; i <= degrees; i++){
-        buffer.insert(std::pair<int,DistanceReading>(i, readings.at(readings.size()-1+i-degrees) ));
+        buffer.insert(std::pair<r2d2::Angle,DistanceReading>(r2d2::Angle(i * r2d2::Angle::deg), readings.at(r2d2::Angle((readings.size()-1+i-degrees)*r2d2::Angle::deg) )));
     }
     for(int i = readings.size()-1; i > 0+degrees; i--){
-        readings.at(i) = readings.at(i-degrees);
+        readings.at(r2d2::Angle(i*r2d2::Angle::deg)) = readings.at(r2d2::Angle((i-degrees)*r2d2::Angle::deg));
     }
     for(int i = 0; i < buffer.size(); i++){
-        readings.at(i) = buffer.at(i);
+        readings.at(r2d2::Angle(i*r2d2::Angle::deg)) = buffer.at(r2d2::Angle(i*r2d2::Angle::deg));
     }
 }
 
@@ -104,8 +104,8 @@ double MapPolarView::match(PolarView& v) {
     double len1, len2;
     double offset = 0.0001; // Precise value to measure by
     for(int i = 0; i < 360; i++) {
-        len1 = (readings.at(i).get_length() / r2d2::Length::METER);
-        len2 = (v.get_distances().at(i).get_length() / r2d2::Length::METER);
+        len1 = (readings.at(r2d2::Angle(i*r2d2::Angle::deg)).get_length() / r2d2::Length::METER);
+        len2 = (v.get_distances().at(r2d2::Angle(i*r2d2::Angle::deg)).get_length() / r2d2::Length::METER);
 
         if(((len1  - offset) < len2) && (len2 < (len1  + offset))) {
             c++;
@@ -122,7 +122,7 @@ std::tuple<r2d2::Angle, double> MapPolarView::find_best_match(PolarView& v){
     int bestRotation;
     double bestScale;
     double bestMatch;
-    std::map<int, DistanceReading> readingsBackup = readings;
+    std::map<r2d2::Angle, DistanceReading> readingsBackup = readings;
     for(double d = scaleFactor; d <= 2 ; d+=scaleFactor) {
         scale(d);
         for(int i = 0; i < 360/rotateFactor; i++){
@@ -142,7 +142,7 @@ std::tuple<r2d2::Angle, double> MapPolarView::find_best_match(PolarView& v){
     return std::tuple<r2d2::Angle, double>(bestAngle, bestScale);
 }
 
-std::map<int, DistanceReading> & MapPolarView::get_distances() {
+std::map<r2d2::Angle, DistanceReading> & MapPolarView::get_distances() {
     return readings;
 }
 
@@ -151,7 +151,7 @@ std::map<int, DistanceReading> & MapPolarView::get_distances() {
 
 PolarView& MapPolarView::scale(double frac) {
     for(int i = 0; i < 360; i++) {
-        DistanceReading & temp = readings.at(i);
+        DistanceReading & temp = readings.at(r2d2::Angle(i*r2d2::Angle::deg));
         temp.set_length(temp.get_length() * frac);
     }
     return (*this);
@@ -159,12 +159,12 @@ PolarView& MapPolarView::scale(double frac) {
 
 // At the moment it assumes both PolarViews have the same starting point
 PolarView& MapPolarView::operator+=(PolarView& v) {
-    std::map<int, DistanceReading> tbadd = v.get_distances();
+    std::map<r2d2::Angle, DistanceReading> tbadd = v.get_distances();
     for(int i = 0; i < 360; i++){
-        DistanceReading & temp = readings.at(i);
+        DistanceReading & temp = readings.at(r2d2::Angle(i*r2d2::Angle::deg));
         if(temp.get_result_type() !=
            DistanceReading::ResultType::CHECKED) {
-            DistanceReading addtemp = tbadd.at(i);
+            DistanceReading addtemp = tbadd.at(r2d2::Angle(i*r2d2::Angle::deg));
 
             if(addtemp.get_result_type() ==
                DistanceReading::ResultType::CHECKED) {
@@ -182,21 +182,21 @@ PolarView& MapPolarView::operator+(PolarView& v) {
 }
 
 void MapPolarView::add_distancereading(r2d2::Angle angle, r2d2::Length len, DistanceReading::ResultType type){
-    int degrees = round(angle.get_angle() * (180 / M_PI));
-    if(readings.count(degrees) > 0){
-        readings.at(degrees).set_length(len);
-        readings.at(degrees).set_result_type(type);
+  //  int degrees = round(angle.get_angle() * (180 / M_PI));
+    if(readings.count(angle) > 0){
+        readings.at(angle).set_length(len);
+        readings.at(angle).set_result_type(type);
     }
 	else{
-		readings.insert(std::pair<int, DistanceReading>(degrees, DistanceReading(len, type)));
+		readings.insert(std::pair<r2d2::Angle, DistanceReading>(angle, DistanceReading(len, type)));
 	}
 }
 void MapPolarView::add_distancereading(r2d2::Angle angle, DistanceReading dist){
-    int degrees = round(angle.get_angle() * (180 / M_PI));
-    if(readings.count(degrees) > 0){
-        readings.at(degrees) = dist;
+   // int degrees = round(angle.get_angle() * (180 / M_PI));
+    if(readings.count(angle) > 0){
+        readings.at(angle) = dist;
     }
 	else{
-		readings.insert(std::pair<int, DistanceReading>(degrees, dist));
+		readings.insert(std::pair<r2d2::Angle, DistanceReading>(angle, dist));
 	}
 }

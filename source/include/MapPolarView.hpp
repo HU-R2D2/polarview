@@ -88,7 +88,7 @@ public:
     std::tuple<r2d2::Angle, double> find_best_match(PolarView& v);
 
     //Returns all the distance readings in the polarview
-    std::map<int, DistanceReading> & get_distances();
+    std::map<r2d2::Angle, DistanceReading> & get_distances();
 
     //Multiplies the distances with a given multiplier
     PolarView& scale(double frac);
@@ -113,7 +113,7 @@ public:
     void add_distancereading(r2d2::Angle angle, DistanceReading dist);
 
 private:
-    std::map <int, DistanceReading> readings;
+    std::map <r2d2::Angle, DistanceReading> readings;
 
 };
 
