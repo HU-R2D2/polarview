@@ -102,20 +102,24 @@ TEST(MapPolarView, addOperator){
 
 	mpv.add_distancereading(make_degree_angle(20), distRead1);
 	mv.add_distancereading(make_degree_angle(30), distRead2);
-    //FIXFIXFIX
+    
+    //It is fixed BUT a new object is made so unless deleted may cause memory leak.
+    //Not sure if this is allowed so for now i'll keep the error generator on.
     EXPECT_TRUE(0);
-	//MapPolarView copyMap = mpv + mv;
+    
+	MapPolarView& copyMap = static_cast<MapPolarView&>(mpv + mv);
 	std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
 	EXPECT_TRUE(length_range(map.at(make_degree_angle(10)).get_length(), len1));
 	EXPECT_TRUE(length_range(map.at(make_degree_angle(20)).get_length(), len1));
 	EXPECT_TRUE(length_range(map.at(make_degree_angle(30)).get_length(), r2d2::Length()));
 
-	/*std::map<r2d2::Angle, DistanceReading>& cMap = copyMap.get_distances();
+	std::map<r2d2::Angle, DistanceReading>& cMap = copyMap.get_distances();
 	EXPECT_TRUE(length_range(cMap.at(make_degree_angle(10)).get_length(), len1));
 	EXPECT_TRUE(length_range(cMap.at(make_degree_angle(20)).get_length(), len1));
-	EXPECT_TRUE(length_range(cMap.at(make_degree_angle(30)).get_length(), len2));*/
-   
+	EXPECT_TRUE(length_range(cMap.at(make_degree_angle(30)).get_length(), len2));
+
+    delete &copyMap;
 }
 
 //DONE

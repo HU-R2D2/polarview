@@ -195,7 +195,8 @@ PolarView& MapPolarView::operator+=(PolarView& v) {
 
 PolarView& MapPolarView::operator+(PolarView& v) {
     MapPolarView retPV = (*this);
-    return retPV += v;
+    MapPolarView& copyPV = *(new MapPolarView(static_cast<MapPolarView&>(retPV += v)));
+    return copyPV;
 }
 
 void MapPolarView::add_distancereading(r2d2::Angle angle, r2d2::Length len, DistanceReading::ResultType type){
