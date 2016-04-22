@@ -40,8 +40,7 @@ TEST(MapPolarView, Collapse){
 	std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
 	mpv.collapse();
-    std::cout << map.at(r2d2::Angle(15*r2d2::Angle::deg)).get_length() << " here\n";
-    std::cout << distRead2.get_length() << " here\n";
+    
 	EXPECT_TRUE(length_range(map.at(r2d2::Angle(10*r2d2::Angle::deg)).get_length(),
                              distRead1.get_length())) << "got overridden by outside value";
 	EXPECT_TRUE(length_range(map.at(r2d2::Angle(20*r2d2::Angle::deg)).get_length(),

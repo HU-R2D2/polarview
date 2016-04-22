@@ -66,21 +66,38 @@ MapPolarView::MapPolarView() {
     }
 }
 
+//Temporary implemented to check 2 Angles with a offset.
+//Will be replaced by ADT comparator lateron. (AKA Never)
+bool angle_range(r2d2::Angle angle1, r2d2::Angle angle2, double offset = 0.0001){
+	return ((angle1  - (offset * r2d2::Angle::rad)) < angle2) && 
+    (angle2 < (angle1  + (offset * r2d2::Angle::rad)));
+}
+
 PolarView& MapPolarView::collapse(){
 	std::vector<r2d2::Angle> keyValues;
-	for(const auto & angle: readings) {
-		if(r2d2::Angle(angle.first).get_angle() > 359){
+    r2d2::Angle circle(M_PI*2 * r2d2::Angle::rad);
+	for(const auto & angle: readings){
+		if(r2d2::Angle(angle.first) > circle){
 			keyValues.push_back(angle.first);
 		}
 	}
-	for(auto & extraAngle: keyValues) {
-		DistanceReading & tbAdd = readings.at(extraAngle);
-		DistanceReading & temp = readings.at(r2d2::Angle(((int)(extraAngle.get_angle()) % 360)* r2d2::Angle::deg));
-		if(temp.get_result_type() != DistanceReading::ResultType::CHECKED) {
-			temp.set_length(tbAdd.get_length());
-		}
-		readings.erase(extraAngle);
-	}
+    for(const auto & extraAngle: keyValues){
+        r2d2::Angle adjustedAngle(extraAngle);
+        while(adjustedAngle > circle){
+            adjustedAngle -= circle;
+        }
+        for(const auto & read: readings){
+            r2d2::Angle angle(read.first);
+            if(angle_range(adjustedAngle, angle)){
+                DistanceReading & tbAdd = readings.at(extraAngle);
+                DistanceReading & temp = readings.at(angle);
+                if(temp.get_result_type() != DistanceReading::ResultType::CHECKED) {
+                    temp.set_length(tbAdd.get_length());
+                }
+                readings.erase(extraAngle);
+            }
+        }
+    }
 	return (*this);
 }
 
