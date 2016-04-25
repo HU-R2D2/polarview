@@ -1,14 +1,3 @@
-////                                                                                                                                        
-// Roborescue
-//
-// \file DistanceReading.hpp
-// \date Created: 07-04-2016
-// \version 1.0.0
-//
-// \author Aydin Biber, Jasper van hulst, Christiaan van de Berg, Dimitry Volker
-//
-
-
 //! \addtogroup 0012 Polar view
 //! \brief A polar view is a 360 degree view around a point.
 //!    
@@ -19,12 +8,12 @@
 //! sensor, by turning around its axis.         
 //!
 //! \file   DistanceReading.hpp
-//! \author <full name and student nr>
-//! \date   Created: <dd-mm-yy>
-//! \date   Last Modified: <dd-mm-yy>
-//! \brief  <Brief description of file.>
+//! \author Aydin Biber - 1666849, Jasper van hulst - 1660498,
+//!         Christiaan van de Berg - 1660475, Dimitry Volker - 1661152
+//! \date   Created: 07-04-2016
+//! \date   Last Modified: 25-04-2016
+//! \brief  A container for the length and the state of that length.
 //!
-//! <Detailed description of file>
 //!
 //! \copyright Copyright © 2016, HU University of Applied Sciences Utrecht. 
 //! All rights reserved.
@@ -61,7 +50,7 @@
 #ifndef DISTANCEREADING_H
 #define DISTANCEREADING_H
 
-#include "../../../adt/source/include/Length.hpp"
+#include "Length.hpp"
 
 class DistanceReading {
 public:

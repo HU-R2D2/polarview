@@ -16,6 +16,7 @@ file(GLOB SOURCES_GTEST "../adt/source/include/ADT_Base.hpp"
                         "test/*.hpp")
 
 include_directories(
+   ../adt/source/include
   ../deps/gtest-1.7.0/include
   ../deps/gtest-1.7.0)
 
