@@ -5,9 +5,18 @@ find_package (Threads)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 file(GLOB SOURCES "source/include/*.hpp")
-file(GLOB SOURCES_GTEST "../adt/source/include/*.hpp" "../adt/source/src/*.cpp" "source/src/*.cpp" "source/include/*.hpp" "test/*.cpp" "test/*.hpp")
+file(GLOB SOURCES_GTEST "../adt/source/include/ADT_Base.hpp"
+                        "../adt/source/include/Angle.hpp"
+                        "../adt/source/include/Length.hpp"
+                        "../adt/source/src/Angle.cpp"
+                        "../adt/source/src/Length.cpp"
+                        "source/src/*.cpp"
+                        "source/include/*.hpp"
+                        "test/*.cpp"
+                        "test/*.hpp")
 
 include_directories(
+   ../adt/source/include
   ../deps/gtest-1.7.0/include
   ../deps/gtest-1.7.0)
 
