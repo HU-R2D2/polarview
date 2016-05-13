@@ -169,9 +169,6 @@ std::map<r2d2::Angle, DistanceReading> & MapPolarView::get_distances() {
     return readings;
 }
 
-
-    // std::tuple<Angle, double mul_fac> find_best_match(PolarView v) = 0;
-
 PolarView& MapPolarView::scale(double frac) {
     for(int i = 0; i < 360; i++) {
         DistanceReading & temp = readings.at(r2d2::Angle(i*r2d2::Angle::deg));
@@ -180,7 +177,6 @@ PolarView& MapPolarView::scale(double frac) {
     return (*this);
 }
 
-// At the moment it assumes both PolarViews have the same starting point
 PolarView& MapPolarView::operator+=(PolarView& v) {
     std::map<r2d2::Angle, DistanceReading> tbadd = v.get_distances();
     for(int i = 0; i < 360; i++){
@@ -208,7 +204,6 @@ PolarView& MapPolarView::operator+(PolarView& v) {
 
 void MapPolarView::add_distancereading(r2d2::Angle angle, r2d2::Length len,
                                        DistanceReading::ResultType type){
-  //  int degrees = round(angle.get_angle() * (180 / M_PI));
     if(readings.count(angle) > 0){
         readings.at(angle).set_length(len);
         readings.at(angle).set_result_type(type);
