@@ -97,6 +97,8 @@ public:
     // \return All the distance readings in the polarview
     std::map<r2d2::Angle, DistanceReading> & get_distances();
 
+    DistanceReading get_distance(r2d2::Angle angle);
+
     //Multiplies the distances with a given multiplier
     // \param frac The fracture that the PolarView will be scaled by.
     // \return A PolarView reference which is scaled by the given amount

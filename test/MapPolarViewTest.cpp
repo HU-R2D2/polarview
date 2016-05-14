@@ -70,8 +70,8 @@ bool length_range(r2d2::Length len1, r2d2::Length len2, double offset = 0.0001){
 TEST(MapPolarView, Constructor){
     MapPolarView mpv = MapPolarView();
 }
-//DONE
-TEST(MapPolarView, Collapse){
+
+TEST(MapPolarView, get_distance){
     MapPolarView mpv = MapPolarView();
     r2d2::Length len1 = 6*r2d2::Length::METER;
     r2d2::Length len2 = 3*r2d2::Length::METER;
@@ -79,35 +79,59 @@ TEST(MapPolarView, Collapse){
     DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
     DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
 
-    //Checks it doesn't override the same angle which already has a value
     mpv.add_distancereading(r2d2::Angle(10*r2d2::Angle::deg), distRead1);
 
     mpv.add_distancereading(r2d2::Angle(370*r2d2::Angle::deg), distRead2);
+
+    EXPECT_TRUE(length_range(mpv.get_distance(10*r2d2::Angle::deg).get_length(),distRead1.get_length())) <<
+                             "incorrect DistanceReading";
+    EXPECT_TRUE(length_range(mpv.get_distance(370*r2d2::Angle::deg).get_length(),distRead2.get_length())) <<
+                        "incorrect DistanceReading";
+
+    EXPECT_TRUE(length_range(mpv.get_distance(15*r2d2::Angle::deg).get_length(),0*r2d2::Length::METER)) <<
+                     "incorrect DistanceReading";
+
+}
+
+//DONE
+TEST(MapPolarView, Collapse){
+    MapPolarView mpv = MapPolarView();
+    r2d2::Length len1 = 12*r2d2::Length::METER;
+    r2d2::Length len2 = 9*r2d2::Length::METER;
+    r2d2::Length len3 = 6*r2d2::Length::METER;
+    r2d2::Length len4 = 3*r2d2::Length::METER;
+
+    DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
+    DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
+    DistanceReading distRead3(len3, DistanceReading::ResultType::CHECKED);
+    DistanceReading distRead4(len4, DistanceReading::ResultType::CHECKED);
+
+   //Checks it doesn't override the same angle which already has a value
+    mpv.add_distancereading(r2d2::Angle(10*r2d2::Angle::deg), distRead1);
+
+     mpv.add_distancereading(r2d2::Angle(370*r2d2::Angle::deg), distRead2);
     //checks if current values are kept.
-    mpv.add_distancereading(r2d2::Angle(20*r2d2::Angle::deg), distRead1);
+    mpv.add_distancereading(r2d2::Angle(20*r2d2::Angle::deg), distRead3);
     //checks if outside range value is merged
-    mpv.add_distancereading(r2d2::Angle(375*r2d2::Angle::deg), distRead2);
+    mpv.add_distancereading(r2d2::Angle(375*r2d2::Angle::deg), distRead4);
 
     std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
     mpv.collapse();
-    std::map<r2d2::Angle, DistanceReading>& mpvtestmap = mpv.get_distances();
 
-    EXPECT_TRUE(length_range(map.at(
+    EXPECT_TRUE(length_range(mpv.get_distance(
                              r2d2::Angle(10*r2d2::Angle::deg)).get_length(),
                              distRead1.get_length())) <<
                              "got overridden by outside value";
-    EXPECT_TRUE(length_range(map.at(
+    EXPECT_TRUE(length_range(mpv.get_distance(
                              r2d2::Angle(20*r2d2::Angle::deg)).get_length(),
-                             distRead1.get_length())) << "check of kept value";
-    std::cout << "LOCATION 15: " << map.at(r2d2::Angle(15*r2d2::Angle::deg)).get_length() << std::endl;
-    EXPECT_TRUE(length_range(map.at(
+                             distRead3.get_length())) << "check of kept value";
+    EXPECT_TRUE(length_range(mpv.get_distance(
                              r2d2::Angle(15*r2d2::Angle::deg)).get_length(),
-                             distRead2.get_length())) <<
+                             distRead4.get_length())) <<
                              "check if collapse value addded";
-
     EXPECT_FALSE(map.count(r2d2::Angle(375*r2d2::Angle::deg)) > 0) <<
-                 "outside value has been deleted";
+                             "outside value has been deleted";
 }
 //DONE
 TEST(MapPolarView, Scale){
@@ -116,14 +140,14 @@ TEST(MapPolarView, Scale){
     DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
     mpv.add_distancereading(make_degree_angle(10), distRead1);
 
-    std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
+  //  std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
     mpv.scale(2); // multiplication test
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(10)).get_length(),
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(),
                              len1 * 2));
 
     mpv.scale(0.5); // division test
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(), len1));
 }
 //DONE
 TEST(MapPolarView, addAssignOperator){
@@ -142,11 +166,10 @@ TEST(MapPolarView, addAssignOperator){
 
     mpv += mv;
 
-    std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(10)).get_length(), len1));
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(20)).get_length(), len1));
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(30)).get_length(), len2));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(20)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(30)).get_length(), len2));
 }
 //DONE
 TEST(MapPolarView, addOperator){
@@ -165,17 +188,15 @@ TEST(MapPolarView, addOperator){
 
 
     MapPolarView& copyMap = static_cast<MapPolarView&>(mpv + mv);
-    std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(10)).get_length(), len1));
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(20)).get_length(), len1));
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(30)).get_length(),
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(20)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(30)).get_length(),
                              r2d2::Length()));
 
-    std::map<r2d2::Angle, DistanceReading>& cMap = copyMap.get_distances();
-    EXPECT_TRUE(length_range(cMap.at(make_degree_angle(10)).get_length(), len1));
-    EXPECT_TRUE(length_range(cMap.at(make_degree_angle(20)).get_length(), len1));
-    EXPECT_TRUE(length_range(cMap.at(make_degree_angle(30)).get_length(), len2));
+    EXPECT_TRUE(length_range(copyMap.get_distance(make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(copyMap.get_distance(make_degree_angle(20)).get_length(), len1));
+    EXPECT_TRUE(length_range(copyMap.get_distance(make_degree_angle(30)).get_length(), len2));
 
     delete &copyMap;
 }
@@ -184,29 +205,27 @@ TEST(MapPolarView, addOperator){
 TEST(MapPolarView, add_distancereadingOne){
     MapPolarView mpv = MapPolarView();
     r2d2::Length len1 = 3 * r2d2::Length::METER;
-    std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(0)).get_length(),
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(),
                                     r2d2::Length()));
     mpv.add_distancereading(make_degree_angle(0), len1,
                             DistanceReading::ResultType::CHECKED);
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(0)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(), len1));
 
 }
 //DONE
 TEST(MapPolarView, add_distancereadingTwo){
     MapPolarView mpv = MapPolarView();
     r2d2::Length len1 = 3 * r2d2::Length::METER;
-    std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(0)).get_length(),
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(),
                                     r2d2::Length()));
     DistanceReading distRead(len1,
                             DistanceReading::ResultType::CHECKED);
     mpv.add_distancereading(make_degree_angle(0), distRead);
     mpv.add_distancereading(make_degree_angle(600), distRead);
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(600)).get_length(), len1));
-    EXPECT_TRUE(length_range(map.at(make_degree_angle(0)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(600)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(), len1));
 }
 //DONE
 TEST(MapPolarView, rotate){
@@ -236,25 +255,25 @@ TEST(MapPolarView, rotate){
     mpv.add_distancereading(make_degree_angle(4), dist);
     mpv.add_distancereading(make_degree_angle(5), dist);
 
-    std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
+   // std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
     for(int i = mapSize-2; i < mapSize; i++){
-        EXPECT_TRUE(length_range(map.at(
+        EXPECT_TRUE(length_range(mpv.get_distance(
                         r2d2::Angle(i * r2d2::Angle::deg)).get_length(), len1));
     }
     for(int i = 6; i < 15; i++){
-        EXPECT_TRUE(length_range(map.at(
+        EXPECT_TRUE(length_range(mpv.get_distance(
               r2d2::Angle(i * r2d2::Angle::deg)).get_length(), r2d2::Length()));
     }
 
     mpv.rotate(make_degree_angle(10));
 
     for(int i = mapSize-12; i < mapSize-2; i++){
-        EXPECT_TRUE(length_range(map.at(
+        EXPECT_TRUE(length_range(mpv.get_distance(
               r2d2::Angle(i * r2d2::Angle::deg)).get_length(), r2d2::Length()));
     }
 
     for(int i = 0; i < 15; i++){
-        EXPECT_TRUE(length_range(map.at(
+        EXPECT_TRUE(length_range(mpv.get_distance(
                         r2d2::Angle(i * r2d2::Angle::deg)).get_length(), len1));
     }
 
@@ -266,26 +285,57 @@ TEST(MapPolarView, rotate){
 //DONE
 TEST(MapPolarView, get_distances) {
     MapPolarView mpv;
+
+    r2d2::Length len1 = 12*r2d2::Length::METER;
+    r2d2::Length len2 = 9*r2d2::Length::METER;
+    r2d2::Length len3 = 6*r2d2::Length::METER;
+    r2d2::Length len4 = 3*r2d2::Length::METER;
+
+    DistanceReading distRead1(len1, DistanceReading::ResultType::CHECKED);
+    DistanceReading distRead2(len2, DistanceReading::ResultType::CHECKED);
+    DistanceReading distRead3(len3, DistanceReading::ResultType::CHECKED);
+    DistanceReading distRead4(len4, DistanceReading::ResultType::CHECKED);
+
+
+    mpv.add_distancereading(r2d2::Angle(10*r2d2::Angle::deg), distRead1);
+    mpv.add_distancereading(r2d2::Angle(370*r2d2::Angle::deg), distRead2);
+    mpv.add_distancereading(r2d2::Angle(20*r2d2::Angle::deg), distRead3);
+    mpv.add_distancereading(r2d2::Angle(375*r2d2::Angle::deg), distRead4);
+
     std::map<r2d2::Angle, DistanceReading> map = mpv.get_distances();
     std::map<r2d2::Angle, DistanceReading> testMap;
-    for(int i = 0; i < 360; i++) {
-        testMap.insert(std::pair<r2d2::Angle, DistanceReading>(
-            r2d2::Angle(i * r2d2::Angle::deg),
-            DistanceReading(
-                DistanceReading(
-                    r2d2::Length(),
-                    DistanceReading::ResultType::DIDNT_CHECK
-                    )
-                )
-            )
-        );
-    }
-    for(int i = 0; i < 360; i++){
-        EXPECT_TRUE(length_range(map.at(
-                                r2d2::Angle(i * r2d2::Angle::deg)).get_length(),
+
+    testMap.insert(std::pair<r2d2::Angle, DistanceReading>(
+                   r2d2::Angle(10* r2d2::Angle::deg),
+                   distRead1));
+    testMap.insert(std::pair<r2d2::Angle, DistanceReading>(
+                   r2d2::Angle(370* r2d2::Angle::deg),
+                   distRead2));
+    testMap.insert(std::pair<r2d2::Angle, DistanceReading>(
+                   r2d2::Angle(20* r2d2::Angle::deg),
+                   distRead3));
+    testMap.insert(std::pair<r2d2::Angle, DistanceReading>(
+                   r2d2::Angle(375* r2d2::Angle::deg),
+                   distRead4));
+
+EXPECT_TRUE(length_range(map.at(
+                                r2d2::Angle(10 * r2d2::Angle::deg)).get_length(),
                                 testMap.at(r2d2::Angle(
-                                    i * r2d2::Angle::deg)).get_length()));
-    }
+                                    10 * r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(
+                                r2d2::Angle(370 * r2d2::Angle::deg)).get_length(),
+                                testMap.at(r2d2::Angle(
+                                    370 * r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(
+                                r2d2::Angle(20 * r2d2::Angle::deg)).get_length(),
+                                testMap.at(r2d2::Angle(
+                                    20 * r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(
+                                r2d2::Angle(375 * r2d2::Angle::deg)).get_length(),
+                                testMap.at(r2d2::Angle(
+                                    375 * r2d2::Angle::deg)).get_length()));
+
+    
 }
 
 //  Test match()
