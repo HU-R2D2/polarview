@@ -121,10 +121,10 @@ void MapPolarView::rotate(r2d2::Angle angle){
     
     for(auto i : readings){
         r2d2::Angle adjAngle(i.first + angle);
-        r2d2::Angle circle (M_PI*2*r2d2::Angle::rad);
-        while(adjAngle > circle || angle_range(adjAngle, circle)){
-            adjAngle -= circle;    //mapsize
-        }
+        // r2d2::Angle circle (M_PI*2*r2d2::Angle::rad);
+        // while(adjAngle > circle || angle_range(adjAngle, circle)){
+            // adjAngle -= circle;
+        // }
         buffer.insert(std::pair<r2d2::Angle,DistanceReading>
         (adjAngle, i.second));
     }
@@ -152,11 +152,17 @@ double MapPolarView::match(PolarView& v) {
     double count = 0;
     double len1, len2;
     double offset = 0.0001; // Precise value to measure by
+    std::map<r2d2::Angle,DistanceReading> compMap = v.get_distances();
     for(const auto & read: readings){
         len1 = (readings.at(read.first).get_length() /
             r2d2::Length::METER);
-        len2 = (v.get_distances().at(read.first)
-            .get_length() / r2d2::Length::METER);
+        for(const auto & compare : compMap){
+            if(angle_range(compare.first, read.first)){
+                DistanceReading temp = compare.second;
+                len2 = temp.get_length()/r2d2::Length::METER;
+                break;
+            }
+        }
 
         if(((len1  - offset) < len2) && (len2 < (len1  + offset))) {
             count++;
@@ -170,13 +176,16 @@ std::tuple<r2d2::Angle, double> MapPolarView::find_best_match(PolarView& v){
     double scaleFactor = 0.5;
     double preifmatch;
 
-    int bestRotation;
-    double bestScale;
-    double bestMatch;
+    //left unitialized these values are undefined
+    int bestRotation = 0;
+    double bestScale = 0;
+    double bestMatch = 0;
     std::map<r2d2::Angle, DistanceReading> readingsBackup = readings;
     for(double d = scaleFactor; d <= 2 ; d+=scaleFactor) {
         scale(d);
-        for(int i = 0; i < readings.size()/rotateFactor; i++){
+        for(int i = 0; 
+                i < ((readings.size() > 360) ? readings.size() : 360) /rotateFactor;
+                i++){
             preifmatch = match(v);
             if(preifmatch > bestMatch){
                 bestRotation = i;
