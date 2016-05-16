@@ -49,22 +49,6 @@
 #include "../include/MapPolarView.hpp"
 #include "../include/DistanceReading.hpp"
 
-MapPolarView::MapPolarView() {
-   /* for(int i = 0; i < 360; i++) {
-        readings.insert(std::pair<r2d2::Angle,
-            DistanceReading>(
-                r2d2::Angle(i * r2d2::Angle::deg),
-                    DistanceReading(
-                        DistanceReading(
-                            r2d2::Length(),
-                            DistanceReading::ResultType::DIDNT_CHECK
-                        )
-                    )
-            )
-        );
-    }*/
-}
-
 bool angle_range(r2d2::Angle angle1, r2d2::Angle angle2,
                  double offset = 0.0001){
     return ((angle1  - (offset * r2d2::Angle::rad)) < angle2) &&

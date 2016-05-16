@@ -59,8 +59,6 @@
 
 class MapPolarView : public PolarView{
 public:
-    //Default constructor
-    MapPolarView();
 
     //Collapses the PolarView into a PolarView
     // that contains every datapoint only once
@@ -97,6 +95,11 @@ public:
     // \return All the distance readings in the polarview
     std::map<r2d2::Angle, DistanceReading> & get_distances();
 
+
+    //Returns a DistanceReading at a specified angle
+    // \return a distance reading at a specified angle,
+    // if angle does not exist in the polarview a DistanceReading of 0 and
+    // a ResultType of DIDNT_CHECK
     DistanceReading get_distance(r2d2::Angle angle);
 
     //Multiplies the distances with a given multiplier
