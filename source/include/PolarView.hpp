@@ -27,6 +27,9 @@ public:
     //Returns all distance readings in the PolarView
     virtual std::map<r2d2::Angle, DistanceReading> & get_distances() = 0;
 
+    //Returns a DistanceReading at a specified angle
+    virtual DistanceReading get_distance(r2d2::Angle angle) = 0;
+
     //Increase the distance readings in the PolarView with a factor growth
     virtual PolarView& scale(double frac) = 0;
 
