@@ -105,10 +105,6 @@ void MapPolarView::rotate(r2d2::Angle angle){
     
     for(auto i : readings){
         r2d2::Angle adjAngle(i.first + angle);
-        // r2d2::Angle circle (M_PI*2*r2d2::Angle::rad);
-        // while(adjAngle > circle || angle_range(adjAngle, circle)){
-            // adjAngle -= circle;
-        // }
         buffer.insert(std::pair<r2d2::Angle,DistanceReading>
         (adjAngle, i.second));
     }
@@ -116,20 +112,6 @@ void MapPolarView::rotate(r2d2::Angle angle){
     readings.clear();
     
     readings = buffer;
-    // for(int i = 0; i <= degrees; i++){
-        // buffer.insert(std::pair<r2d2::Angle,DistanceReading>
-            // (r2d2::Angle(i * r2d2::Angle::deg),
-             // get_distance(r2d2::Angle((readings.size()-1+i-degrees)
-             // *r2d2::Angle::deg))));
-    // }
-    // for(int i = readings.size()-1; i > 0+degrees; i--){
-        // readings.at(r2d2::Angle(i*r2d2::Angle::deg)) =
-        // readings.at(r2d2::Angle((i-degrees)*r2d2::Angle::deg));
-    // }
-    // for(int i = 0; i < buffer.size(); i++){
-        // readings.at(r2d2::Angle(i*r2d2::Angle::deg)) =
-         // buffer.at(r2d2::Angle(i*r2d2::Angle::deg));
-    // }
 }
 
 double MapPolarView::match(PolarView& v) {
@@ -194,12 +176,6 @@ DistanceReading MapPolarView::get_distance(r2d2::Angle angle) {
     }
     return DistanceReading(r2d2::Length(),
                             DistanceReading::ResultType::DIDNT_CHECK);
-    // if (readings.find(angle) != readings.end()){
-        // return readings.at(angle);
-    // } else {
-        // return DistanceReading(r2d2::Length(),
-                                // DistanceReading::ResultType::DIDNT_CHECK);
-    // }
 }
 
 std::map<r2d2::Angle, DistanceReading> & MapPolarView::get_distances() {
