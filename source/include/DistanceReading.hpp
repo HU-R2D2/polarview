@@ -75,7 +75,7 @@ namespace r2d2{
 
 		//  Getter for the ResultType object
 		//  \return returns the resulttype of the distancereading
-		ResultType get_result_type();
+		const ResultType get_result_type();
 
 		//  set_length
 		//
@@ -87,7 +87,7 @@ namespace r2d2{
 		//
 		//  Getter for the Length object
 		//  \return Returns the length of the distancereading
-		r2d2::Length & get_length();
+		const r2d2::Length & get_length();
 
 	private:
 		r2d2::Length length;
