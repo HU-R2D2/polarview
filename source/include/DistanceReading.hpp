@@ -52,44 +52,47 @@
 
 #include "Length.hpp"
 
-class DistanceReading {
-public:
-    enum class ResultType {
-        DIDNT_CHECK,
-        OUT_OF_RANGE,
-        CHECKED
-    };
+namespace r2d2{
 
-    //  DistanceReading constructor
-    DistanceReading(r2d2::Length len, ResultType type);
+	class DistanceReading {
+	public:
+		enum class ResultType {
+			DIDNT_CHECK,
+			OUT_OF_RANGE,
+			CHECKED
+		};
 
-    //  set_result_type
-    //
-    //  Setter for the ResultType object
-    //  \param ResultType What type the distancereading has to be set to.
-    void set_result_type(ResultType t);
+		//  DistanceReading constructor
+		DistanceReading(r2d2::Length len, ResultType type);
 
-    //  get_result_type
+		//  set_result_type
+		//
+		//  Setter for the ResultType object
+		//  \param ResultType What type the distancereading has to be set to.
+		void set_result_type(ResultType t);
 
-    //  Getter for the ResultType object
-    //  \return returns the resulttype of the distancereading
-    ResultType get_result_type();
+		//  get_result_type
 
-    //  set_length
-    //
-    //  Setter for the Length object
-    //  \param Length The length it has to be set to.
-    void set_length(r2d2::Length len);
+		//  Getter for the ResultType object
+		//  \return returns the resulttype of the distancereading
+		ResultType get_result_type();
 
-    //  get_distance
-    //
-    //  Getter for the Length object
-    //  \return Returns the length of the distancereading
-    r2d2::Length & get_length();
+		//  set_length
+		//
+		//  Setter for the Length object
+		//  \param Length The length it has to be set to.
+		void set_length(r2d2::Length len);
 
-private:
-    r2d2::Length length;
-    ResultType type;
-};
+		//  get_distance
+		//
+		//  Getter for the Length object
+		//  \return Returns the length of the distancereading
+		r2d2::Length & get_length();
 
+	private:
+		r2d2::Length length;
+		ResultType type;
+	};
+
+}
 #endif // DISTANCEREADING_H
