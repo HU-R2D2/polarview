@@ -61,7 +61,7 @@ namespace r2d2{
 		this->type = t;
 	}
 
-	DistanceReading::ResultType DistanceReading::get_result_type() {
+    const DistanceReading::ResultType & DistanceReading::get_result_type() const {
 		return this->type;
 	}
 
@@ -69,8 +69,8 @@ namespace r2d2{
 		this->length = l;
 	}
 
-	r2d2::Length & DistanceReading::get_length() {
-		return length;
+    const r2d2::Length & DistanceReading::get_length() const {
+        return length;
 	}
 
 }

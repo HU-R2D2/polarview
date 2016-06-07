@@ -50,7 +50,7 @@
 #define _MAPPOLARVIEW_H
 
 #include "DistanceReading.hpp"
-#include "../../../adt/source/include/Angle.hpp"
+#include "Angle.hpp"
 #include "PolarView.hpp"
 #include <map>
 #include <algorithm>
