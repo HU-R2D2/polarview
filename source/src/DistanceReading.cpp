@@ -61,6 +61,7 @@ namespace r2d2{
 		this->type = t;
 	}
 
+
     const DistanceReading::ResultType & DistanceReading::get_result_type() const {
 		return this->type;
 	}
