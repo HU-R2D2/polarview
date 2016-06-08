@@ -60,16 +60,16 @@ TEST(DistanceReading, SetResultType) {
 
     r2d2::Length len;
 
-    r2d2::DistanceReading a(r2d2::DistanceReading(len,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading a(DistanceReading(len,
+                                     DistanceReading::ResultType::DIDNT_CHECK));
 
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::DIDNT_CHECK);
+    EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::DIDNT_CHECK);
 
-    a.set_result_type(r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
+    a.set_result_type(DistanceReading::ResultType::OUT_OF_RANGE);
+    EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::OUT_OF_RANGE);
 
-    a.set_result_type(r2d2::DistanceReading::ResultType::CHECKED);
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::CHECKED);
+    a.set_result_type(DistanceReading::ResultType::CHECKED);
+    EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::CHECKED);
 }
 
 //  Test get_result_type()
@@ -81,16 +81,16 @@ TEST(DistanceReading, SetResultType) {
 TEST(DistanceReading, GetResultType) {
     r2d2::Length len;
 
-    r2d2::DistanceReading a(r2d2::DistanceReading(len,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
-    r2d2::DistanceReading b(r2d2::DistanceReading(len,
-                                    r2d2::DistanceReading::ResultType::OUT_OF_RANGE));
-    r2d2::DistanceReading c(r2d2::DistanceReading(len,
-                                      r2d2::DistanceReading::ResultType::CHECKED));
+    DistanceReading a(DistanceReading(len,
+                                     DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading b(DistanceReading(len,
+                                    DistanceReading::ResultType::OUT_OF_RANGE));
+    DistanceReading c(DistanceReading(len,
+                                      DistanceReading::ResultType::CHECKED));
     
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::DIDNT_CHECK);
-    EXPECT_EQ(b.get_result_type(), r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
-    EXPECT_EQ(c.get_result_type(), r2d2::DistanceReading::ResultType::CHECKED);
+    EXPECT_EQ(a.get_result_type(), DistanceReading::ResultType::DIDNT_CHECK);
+    EXPECT_EQ(b.get_result_type(), DistanceReading::ResultType::OUT_OF_RANGE);
+    EXPECT_EQ(c.get_result_type(), DistanceReading::ResultType::CHECKED);
 }
 
  // Test set_length()
@@ -105,8 +105,8 @@ TEST(DistanceReading, SetDistance) {
     r2d2::Length len1(200 * r2d2::Length::METER);
     r2d2::Length len2(200 * r2d2::Length::METER);
 
-    r2d2::DistanceReading a(r2d2::DistanceReading(len2,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading a(DistanceReading(len2,
+                                     DistanceReading::ResultType::DIDNT_CHECK));
     r2d2::Length tempmax(a.get_length());
     // Extremely precise offset for measurement
     const r2d2::Length offset(len1 / (1000 * 1000 * 1000));
@@ -132,8 +132,8 @@ TEST(DistanceReading, GetDistance) {
     r2d2::Length len1(200 * r2d2::Length::METER);
     r2d2::Length len2(200.01 * r2d2::Length::METER);
 
-    r2d2::DistanceReading a(r2d2::DistanceReading(len2,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+    DistanceReading a(DistanceReading(len2,
+                                     DistanceReading::ResultType::DIDNT_CHECK));
     r2d2::Length tempmax(a.get_length());
 
     const r2d2::Length offset(len1 / 10000);
