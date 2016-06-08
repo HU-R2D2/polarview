@@ -1,4 +1,10 @@
+#include "DistanceReading.hpp"
+#include "Angle.hpp"
+#include "Length.hpp"
 #include <map>
+
+#ifndef _POLARVIEW_H
+#define _POLARVIEW_H
 
 namespace r2d2{
 
@@ -51,3 +57,5 @@ namespace r2d2{
 	};
 
 }
+
+#endif //_POLARVIEW_H
