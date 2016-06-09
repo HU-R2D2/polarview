@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 project(polarview)
 find_package (Threads)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Werror -Wall")
 
 file(GLOB SOURCES "source/include/*.hpp")
 file(GLOB SOURCES_GTEST "../adt/source/include/ADT_Base.hpp"
