@@ -50,94 +50,96 @@
 #define _MAPPOLARVIEW_H
 
 #include "DistanceReading.hpp"
-#include "../../../adt/source/include/Angle.hpp"
+#include "Angle.hpp"
 #include "PolarView.hpp"
 #include <map>
 #include <algorithm>
 #include <tuple>
 #include <vector>
 
-class MapPolarView : public PolarView {
-public:
+namespace r2d2{
+    class MapPolarView : public PolarView {
+    public:
 
-    // Collapses the PolarView into a PolarView
-    // that contains every datapoint only once
-    // For instance: when the robot spins twice, the values will
-    // overlap at the 360th degree.
-    // Collapse will get rid of the duplicate values.
-    // However: when for example the 16th degree
-    // wasn't captured and the 376th is available,
-    // it will use that value instead.
-    // \return reference to a collapsed polarview.
-    void collapse();
+        // Collapses the PolarView into a PolarView
+        // that contains every datapoint only once
+        // For instance: when the robot spins twice, the values will
+        // overlap at the 360th degree.
+        // Collapse will get rid of the duplicate values.
+        // However: when for example the 16th degree
+        // wasn't captured and the 376th is available,
+        // it will use that value instead.
+        // \return reference to a collapsed polarview.
+        void collapse();
 
-    //Rotates the PolarView with a given angle.
-    // \param angle how many radians you want to rotate the PolarView
-    void rotate(r2d2::Angle angle);
+        //Rotates the PolarView with a given angle.
+        // \param angle how many radians you want to rotate the PolarView
+        void rotate(r2d2::Angle angle);
 
-    //Matches the PolarView with a given PolarView
-    //Returns a value that is a perentage that indicates how much
-    //the PolarViews are alike.
-    // \param PolarView& Reference to a polarview which is to be matched with the
-    //current PolarView.
-    // \return A double of a percentage of how much of a match the two polarviews are.
-    double match(PolarView &v);
+        //Matches the PolarView with a given PolarView
+        //Returns a value that is a perentage that indicates how much
+        //the PolarViews are alike.
+        // \param PolarView& Reference to a polarview which is to be matched with the
+        //current PolarView.
+        // \return A double of a percentage of how much of a match the two polarviews are.
+        double match(PolarView &v);
 
-    //Finds the best match with the given PolarView.
-    //Returns the rotation and the multiplication factor
-    //that best matches in a std::tuple
-    // \param PolarView& Reference to a polarview which is to be matched with the
-    //current Polarview.
-    // \return a tuple with the angle and scale you need to make the two polarviews as
-    // alike as they can be.
-    std::tuple<r2d2::Angle, double> find_best_match(PolarView &v);
+        //Finds the best match with the given PolarView.
+        //Returns the rotation and the multiplication factor
+        //that best matches in a std::tuple
+        // \param PolarView& Reference to a polarview which is to be matched with the
+        //current Polarview.
+        // \return a tuple with the angle and scale you need to make the two polarviews as
+        // alike as they can be.
+        std::tuple<r2d2::Angle, double> find_best_match(PolarView &v);
 
-    // \return All the distance readings in the polarview
-    std::map<r2d2::Angle, DistanceReading> get_distances();
+        // \return All the distance readings in the polarview
+        std::map<r2d2::Angle, DistanceReading> get_distances();
 
 
-    //Returns a DistanceReading at a specified angle
-    // \return a distance reading at a specified angle,
-    // if angle does not exist in the polarview a DistanceReading of 0 and
-    // a ResultType of DIDNT_CHECK
-    DistanceReading get_distance(r2d2::Angle angle);
+        //Returns a DistanceReading at a specified angle
+        // \return a distance reading at a specified angle,
+        // if angle does not exist in the polarview a DistanceReading of 0 and
+        // a ResultType of DIDNT_CHECK
+        DistanceReading get_distance(r2d2::Angle angle);
 
-    //Multiplies the distances with a given multiplier
-    // \param frac The fracture that the PolarView will be scaled by.
-    // \return A PolarView reference which is scaled by the given amount
-    void scale(double frac);
+        //Multiplies the distances with a given multiplier
+        // \param frac The fracture that the PolarView will be scaled by.
+        // \return A PolarView reference which is scaled by the given amount
+        void scale(double frac);
 
-    //  += operator
-    //
-    //  Adds 2 ArrayPolarviews together. This does not add
-    //  two values together but rather 'merges' the two PolarViews
-    //  \param v The PolarView that is to be added to the current polarview
-    //  \return two polarviews added together.
-    PolarView &operator+=(PolarView &v) override;
+        //  += operator
+        //
+        //  Adds 2 ArrayPolarviews together. This does not add
+        //  two values together but rather 'merges' the two PolarViews
+        //  \param v The PolarView that is to be added to the current polarview
+        //  \return two polarviews added together.
+        PolarView &operator+=(PolarView &v) override;
 
-    //  + operator
-    //
-    //  Adds 2 ArrayPolarviews together. This does not add
-    //  two values together but rather 'merges' the two PolarViews
-    //  \param v The PolarView that is to be added to the current polarview
-    //  \return the two polarviews added together
-    std::unique_ptr<PolarView> operator+(PolarView &v) override;
+        //  + operator
+        //
+        //  Adds 2 ArrayPolarviews together. This does not add
+        //  two values together but rather 'merges' the two PolarViews
+        //  \param v The PolarView that is to be added to the current polarview
+        //  \return the two polarviews added together
+        std::unique_ptr<PolarView> operator+(PolarView &v) override;
 
-    //These add_distancereading functions will add new distancereadings to the
-    //PolarView.
-    // \param angle The angle of the distancereading
-    // \param len the length of the distancereading
-    // \param type which type the distancereading is.
-    void add_distancereading(r2d2::Angle angle, r2d2::Length len,
-                             DistanceReading::ResultType type);
+        //These add_distancereading functions will add new distancereadings to the
+        //PolarView.
+        // \param angle The angle of the distancereading
+        // \param len the length of the distancereading
+        // \param type which type the distancereading is.
+        void add_distancereading(r2d2::Angle angle, r2d2::Length len,
+                                 DistanceReading::ResultType type);
 
-    // \param angle The angle of the distancereading
-    // \param dist The distance reading that is to be added to the PolarView
-    void add_distancereading(r2d2::Angle angle, DistanceReading dist);
+        // \param angle The angle of the distancereading
+        // \param dist The distance reading that is to be added to the PolarView
+        void add_distancereading(r2d2::Angle angle, DistanceReading dist);
 
-private:
-    std::map<r2d2::Angle, DistanceReading> readings;
+    private:
+        std::map<r2d2::Angle, DistanceReading> readings;
 
-};
+    };
+}
 
 #endif //_MAPPOLARVIEW_H
