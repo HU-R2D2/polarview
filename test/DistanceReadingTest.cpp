@@ -1,11 +1,11 @@
 //! \addtogroup 0012 Polar view
 //! \brief A polar view is a 360 degree view around a point.
-//!    
+//!
 //! A polar view is what a distance meter sees if it is turned around to
 //! look in all directions: for each direction (angle) a distance to the
 //! nearest object (for now we ‘think’ in 2D only). Such a view could be
 //! delivered from a Lidar, or from a robot, with an UltraSonic distance
-//! sensor, by turning around its axis.         
+//! sensor, by turning around its axis.
 //!
 //! \file   DistanceReadingTest.cpp
 //! \author Aydin Biber - 1666849, Jasper van hulst - 1660498,
@@ -14,35 +14,35 @@
 //! \date   Last Modified: 25-04-2016
 //!
 //!
-//! \copyright Copyright © 2016, HU University of Applied Sciences Utrecht. 
+//! \copyright Copyright © 2016, HU University of Applied Sciences Utrecht.
 //! All rights reserved.
-//! 
+//!
 //! License: newBSD
 //!
-//! Redistribution and use in source and binary forms, 
-//! with or without modification, are permitted provided that 
+//! Redistribution and use in source and binary forms,
+//! with or without modification, are permitted provided that
 //! the following conditions are met:
-//! - Redistributions of source code must retain the above copyright notice, 
+//! - Redistributions of source code must retain the above copyright notice,
 //!   this list of conditions and the following disclaimer.
-//! - Redistributions in binary form must reproduce the above copyright notice, 
-//!   this list of conditions and the following disclaimer in the documentation 
+//! - Redistributions in binary form must reproduce the above copyright notice,
+//!   this list of conditions and the following disclaimer in the documentation
 //!   and/or other materials provided with the distribution.
-//! - Neither the name of the HU University of Applied Sciences Utrecht 
-//!   nor the names of its contributors may be used to endorse or promote 
-//!   products derived from this software without specific prior written 
+//! - Neither the name of the HU University of Applied Sciences Utrecht
+//!   nor the names of its contributors may be used to endorse or promote
+//!   products derived from this software without specific prior written
 //!   permission.
 //!
 //! THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//! "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, 
-//! BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY 
-//! AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+//! "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+//! BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+//! AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
 //! IN NO EVENT SHALL THE HU UNIVERSITY OF APPLIED SCIENCES UTRECHT
 //! BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-//! CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
-//! PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
-//! OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-//! WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR 
-//! OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+//! CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+//! PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+//! OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+//! WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+//! OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 //! EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // ~< HEADER_VERSION 2016 04 12 >~
 
@@ -61,12 +61,14 @@ TEST(DistanceReading, SetResultType) {
     r2d2::Length len;
 
     r2d2::DistanceReading a(r2d2::DistanceReading(len,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+                            r2d2::DistanceReading::ResultType::DIDNT_CHECK));
 
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::DIDNT_CHECK);
+    EXPECT_EQ(a.get_result_type(),
+                r2d2::DistanceReading::ResultType::DIDNT_CHECK);
 
     a.set_result_type(r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
+    EXPECT_EQ(a.get_result_type(),
+                    r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
 
     a.set_result_type(r2d2::DistanceReading::ResultType::CHECKED);
     EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::CHECKED);
@@ -82,15 +84,18 @@ TEST(DistanceReading, GetResultType) {
     r2d2::Length len;
 
     r2d2::DistanceReading a(r2d2::DistanceReading(len,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+                            r2d2::DistanceReading::ResultType::DIDNT_CHECK));
     r2d2::DistanceReading b(r2d2::DistanceReading(len,
-                                    r2d2::DistanceReading::ResultType::OUT_OF_RANGE));
+                            r2d2::DistanceReading::ResultType::OUT_OF_RANGE));
     r2d2::DistanceReading c(r2d2::DistanceReading(len,
-                                      r2d2::DistanceReading::ResultType::CHECKED));
-    
-    EXPECT_EQ(a.get_result_type(), r2d2::DistanceReading::ResultType::DIDNT_CHECK);
-    EXPECT_EQ(b.get_result_type(), r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
-    EXPECT_EQ(c.get_result_type(), r2d2::DistanceReading::ResultType::CHECKED);
+                            r2d2::DistanceReading::ResultType::CHECKED));
+
+    EXPECT_EQ(a.get_result_type(),
+                r2d2::DistanceReading::ResultType::DIDNT_CHECK);
+    EXPECT_EQ(b.get_result_type(),
+                r2d2::DistanceReading::ResultType::OUT_OF_RANGE);
+    EXPECT_EQ(c.get_result_type(),
+                r2d2::DistanceReading::ResultType::CHECKED);
 }
 
  // Test set_length()
@@ -106,7 +111,7 @@ TEST(DistanceReading, SetDistance) {
     r2d2::Length len2(200 * r2d2::Length::METER);
 
     r2d2::DistanceReading a(r2d2::DistanceReading(len2,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+                            r2d2::DistanceReading::ResultType::DIDNT_CHECK));
     r2d2::Length tempmax(a.get_length());
     // Extremely precise offset for measurement
     const r2d2::Length offset(len1 / (1000 * 1000 * 1000));
@@ -133,7 +138,7 @@ TEST(DistanceReading, GetDistance) {
     r2d2::Length len2(200.01 * r2d2::Length::METER);
 
     r2d2::DistanceReading a(r2d2::DistanceReading(len2,
-                                     r2d2::DistanceReading::ResultType::DIDNT_CHECK));
+                            r2d2::DistanceReading::ResultType::DIDNT_CHECK));
     r2d2::Length tempmax(a.get_length());
 
     const r2d2::Length offset(len1 / 10000);

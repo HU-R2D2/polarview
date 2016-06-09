@@ -50,28 +50,24 @@
 #include "../include/DistanceReading.hpp"
 
 namespace r2d2{
+    DistanceReading::DistanceReading(r2d2::Length len, ResultType type) :
+            length(len), type(type) {
 
-	DistanceReading::DistanceReading(r2d2::Length len, ResultType type) :
-		length(len), type(type)
-	{
+    }
 
-	}
-
-	void DistanceReading::set_result_type(ResultType t) {
-		this->type = t;
-	}
-
+    void DistanceReading::set_result_type(ResultType t) {
+        this->type = t;
+    }
 
     const DistanceReading::ResultType & DistanceReading::get_result_type() const {
-		return this->type;
-	}
+        return this->type;
+    }
 
-	void DistanceReading::set_length(r2d2::Length l) {
-		this->length = l;
-	}
+    void DistanceReading::set_length(r2d2::Length l) {
+        this->length = l;
+    }
 
-    const r2d2::Length & DistanceReading::get_length() const {
+    const r2d2::Length & DistanceReading::get_length() const{
         return length;
-	}
-
+    }
 }
