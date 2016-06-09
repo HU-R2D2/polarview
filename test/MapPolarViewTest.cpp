@@ -76,19 +76,24 @@ TEST(MapPolarView, get_distance){
     r2d2::Length len1 = 6*r2d2::Length::METER;
     r2d2::Length len2 = 3*r2d2::Length::METER;
 
-    r2d2::DistanceReading distRead1(len1, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead2(len2, r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead1(len1,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead2(len2,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
     mpv.add_distancereading(r2d2::Angle(10*r2d2::Angle::deg), distRead1);
 
     mpv.add_distancereading(r2d2::Angle(370*r2d2::Angle::deg), distRead2);
 
-    EXPECT_TRUE(length_range(mpv.get_distance(10*r2d2::Angle::deg).get_length(),distRead1.get_length())) <<
+    EXPECT_TRUE(length_range(mpv.get_distance(10*r2d2::Angle::deg).get_length()
+                            ,distRead1.get_length())) <<
                              "incorrect DistanceReading";
-    EXPECT_TRUE(length_range(mpv.get_distance(370*r2d2::Angle::deg).get_length(),distRead2.get_length())) <<
+    EXPECT_TRUE(length_range(mpv.get_distance(370*r2d2::Angle::deg).get_length()
+                            ,distRead2.get_length())) <<
                         "incorrect DistanceReading";
 
-    EXPECT_TRUE(length_range(mpv.get_distance(15*r2d2::Angle::deg).get_length(),0*r2d2::Length::METER)) <<
+    EXPECT_TRUE(length_range(mpv.get_distance(15*r2d2::Angle::deg).get_length()
+                            ,0*r2d2::Length::METER)) <<
                      "incorrect DistanceReading";
 
 }
@@ -101,23 +106,27 @@ TEST(MapPolarView, Collapse){
     r2d2::Length len3 = 6*r2d2::Length::METER;
     r2d2::Length len4 = 3*r2d2::Length::METER;
 
-    r2d2::DistanceReading distRead1(len1, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead2(len2, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead3(len3, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead4(len4, r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead1(len1,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead2(len2,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead3(len3,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead4(len4,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
    //Checks it doesn't override the same angle which already has a value
     mpv.add_distancereading(r2d2::Angle(10*r2d2::Angle::deg), distRead1);
 
-     mpv.add_distancereading(r2d2::Angle(370*r2d2::Angle::deg), distRead2);
+    mpv.add_distancereading(r2d2::Angle(370*r2d2::Angle::deg), distRead2);
     //checks if current values are kept.
     mpv.add_distancereading(r2d2::Angle(20*r2d2::Angle::deg), distRead3);
     //checks if outside range value is merged
     mpv.add_distancereading(r2d2::Angle(375*r2d2::Angle::deg), distRead4);
 
-    std::map<r2d2::Angle, r2d2::DistanceReading>& map = mpv.get_distances();
-
     mpv.collapse();
+    std::map<r2d2::Angle, r2d2::DistanceReading> map = mpv.get_distances();
+
 
     EXPECT_TRUE(length_range(mpv.get_distance(
                              r2d2::Angle(10*r2d2::Angle::deg)).get_length(),
@@ -137,17 +146,19 @@ TEST(MapPolarView, Collapse){
 TEST(MapPolarView, Scale){
     r2d2::MapPolarView mpv = r2d2::MapPolarView();
     r2d2::Length len1 = 6*r2d2::Length::METER;
-    r2d2::DistanceReading distRead1(len1, r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead1(len1,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
     mpv.add_distancereading(make_degree_angle(10), distRead1);
 
   //  std::map<r2d2::Angle, DistanceReading>& map = mpv.get_distances();
 
     mpv.scale(2); // multiplication test
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(),
-                             len1 * 2));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(10)).get_length(),len1 * 2));
 
     mpv.scale(0.5); // division test
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(10)).get_length(), len1));
 }
 //DONE
 TEST(MapPolarView, addAssignOperator){
@@ -155,8 +166,10 @@ TEST(MapPolarView, addAssignOperator){
     r2d2::MapPolarView mv = r2d2::MapPolarView();
     r2d2::Length len1 = 6*r2d2::Length::METER;
     r2d2::Length len2 = 3*r2d2::Length::METER;
-    r2d2::DistanceReading distRead1(len1, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead2(len2, r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead1(len1,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead2(len2,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
     mpv.add_distancereading(make_degree_angle(10), distRead1);
     mv.add_distancereading(make_degree_angle(10), distRead2);
@@ -167,9 +180,12 @@ TEST(MapPolarView, addAssignOperator){
     mpv += mv;
 
 
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(), len1));
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(20)).get_length(), len1));
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(30)).get_length(), len2));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(20)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(30)).get_length(), len2));
 }
 //DONE
 TEST(MapPolarView, addOperator){
@@ -177,8 +193,10 @@ TEST(MapPolarView, addOperator){
     r2d2::MapPolarView mv = r2d2::MapPolarView();
     r2d2::Length len1 = 6*r2d2::Length::METER;
     r2d2::Length len2 = 3*r2d2::Length::METER;
-    r2d2::DistanceReading distRead1(len1, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead2(len2, r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead1(len1,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead2(len2,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
     mpv.add_distancereading(make_degree_angle(10), distRead1);
     mv.add_distancereading(make_degree_angle(10), distRead2);
@@ -187,18 +205,23 @@ TEST(MapPolarView, addOperator){
     mv.add_distancereading(make_degree_angle(30), distRead2);
 
 
-    r2d2::MapPolarView& copyMap = static_cast<r2d2::MapPolarView&>(mpv + mv);
+    auto copyMap = mpv + mv;
 
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(10)).get_length(), len1));
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(20)).get_length(), len1));
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(30)).get_length(),
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(20)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(30)).get_length(),
                              r2d2::Length()));
 
-    EXPECT_TRUE(length_range(copyMap.get_distance(make_degree_angle(10)).get_length(), len1));
-    EXPECT_TRUE(length_range(copyMap.get_distance(make_degree_angle(20)).get_length(), len1));
-    EXPECT_TRUE(length_range(copyMap.get_distance(make_degree_angle(30)).get_length(), len2));
+    EXPECT_TRUE(length_range(copyMap->get_distance(
+                            make_degree_angle(10)).get_length(), len1));
+    EXPECT_TRUE(length_range(copyMap->get_distance(
+                            make_degree_angle(20)).get_length(), len1));
+    EXPECT_TRUE(length_range(copyMap->get_distance(
+                            make_degree_angle(30)).get_length(), len2));
 
-    delete &copyMap;
 }
 
 //DONE
@@ -206,11 +229,12 @@ TEST(MapPolarView, add_distancereadingOne){
     r2d2::MapPolarView mpv = r2d2::MapPolarView();
     r2d2::Length len1 = 3 * r2d2::Length::METER;
 
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(),
-                                    r2d2::Length()));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(0)).get_length(),r2d2::Length()));
     mpv.add_distancereading(make_degree_angle(0), len1,
                             r2d2::DistanceReading::ResultType::CHECKED);
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(), len1));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(0)).get_length(), len1));
 
 }
 //DONE
@@ -218,8 +242,8 @@ TEST(MapPolarView, add_distancereadingTwo){
     r2d2::MapPolarView mpv = r2d2::MapPolarView();
     r2d2::Length len1 = 3 * r2d2::Length::METER;
 
-    EXPECT_TRUE(length_range(mpv.get_distance(make_degree_angle(0)).get_length(),
-                                    r2d2::Length()));
+    EXPECT_TRUE(length_range(mpv.get_distance(
+                            make_degree_angle(0)).get_length(),r2d2::Length()));
     r2d2::DistanceReading distRead(len1,
                             r2d2::DistanceReading::ResultType::CHECKED);
     mpv.add_distancereading(make_degree_angle(0), distRead);
@@ -230,10 +254,10 @@ TEST(MapPolarView, add_distancereadingTwo){
 //DONE
 TEST(MapPolarView, rotate){
     r2d2::MapPolarView mpv = r2d2::MapPolarView();
-    std::map<r2d2::Angle, r2d2::DistanceReading>& testMap = mpv.get_distances();
+    std::map<r2d2::Angle, r2d2::DistanceReading> testMap = mpv.get_distances();
     r2d2::Length len1 = 5*r2d2::Length::METER;
     r2d2::DistanceReading dist = r2d2::DistanceReading(len1,
-                                          r2d2::DistanceReading::ResultType::CHECKED);
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
     int mapSize = testMap.size();
     mpv.add_distancereading(make_degree_angle(mapSize-12), dist);
@@ -291,10 +315,14 @@ TEST(MapPolarView, get_distances) {
     r2d2::Length len3 = 6*r2d2::Length::METER;
     r2d2::Length len4 = 3*r2d2::Length::METER;
 
-    r2d2::DistanceReading distRead1(len1, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead2(len2, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead3(len3, r2d2::DistanceReading::ResultType::CHECKED);
-    r2d2::DistanceReading distRead4(len4, r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead1(len1,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead2(len2,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead3(len3,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
+    r2d2::DistanceReading distRead4(len4,
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
 
     mpv.add_distancereading(r2d2::Angle(10*r2d2::Angle::deg), distRead1);
@@ -318,24 +346,20 @@ TEST(MapPolarView, get_distances) {
                    r2d2::Angle(375* r2d2::Angle::deg),
                    distRead4));
 
-EXPECT_TRUE(length_range(map.at(
-                                r2d2::Angle(10 * r2d2::Angle::deg)).get_length(),
-                                testMap.at(r2d2::Angle(
-                                    10 * r2d2::Angle::deg)).get_length()));
-EXPECT_TRUE(length_range(map.at(
-                                r2d2::Angle(370 * r2d2::Angle::deg)).get_length(),
-                                testMap.at(r2d2::Angle(
-                                    370 * r2d2::Angle::deg)).get_length()));
-EXPECT_TRUE(length_range(map.at(
-                                r2d2::Angle(20 * r2d2::Angle::deg)).get_length(),
-                                testMap.at(r2d2::Angle(
-                                    20 * r2d2::Angle::deg)).get_length()));
-EXPECT_TRUE(length_range(map.at(
-                                r2d2::Angle(375 * r2d2::Angle::deg)).get_length(),
-                                testMap.at(r2d2::Angle(
-                                    375 * r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(r2d2::Angle(10 * r2d2::Angle::deg)).
+                        get_length(),testMap.at(r2d2::Angle(10 *
+                        r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(r2d2::Angle(370 * r2d2::Angle::deg)).
+                        get_length(),testMap.at(r2d2::Angle(370 *
+                        r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(r2d2::Angle(20 * r2d2::Angle::deg)).
+                        get_length(),testMap.at(r2d2::Angle(20 *
+                        r2d2::Angle::deg)).get_length()));
+EXPECT_TRUE(length_range(map.at(r2d2::Angle(375 * r2d2::Angle::deg)).
+                        get_length(),testMap.at(r2d2::Angle(375 *
+                        r2d2::Angle::deg)).get_length()));
 
-    
+
 }
 
 //  Test match()
@@ -350,9 +374,9 @@ TEST(MapPolarView, Match) {
     r2d2::MapPolarView mpv1 = r2d2::MapPolarView();
     r2d2::MapPolarView mpv2 = r2d2::MapPolarView();
     r2d2::DistanceReading dist = r2d2::DistanceReading(5*r2d2::Length::METER,
-                                           r2d2::DistanceReading::ResultType::CHECKED);
+                                    r2d2::DistanceReading::ResultType::CHECKED);
     r2d2::DistanceReading dist2 = r2d2::DistanceReading(4*r2d2::Length::METER,
-                                            r2d2::DistanceReading::ResultType::CHECKED);
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
     mpv1.add_distancereading(make_degree_angle(0), dist);
     mpv1.add_distancereading(make_degree_angle(3), dist);
@@ -388,9 +412,9 @@ TEST(MapPolarView, find_best_match){
     r2d2::MapPolarView pv = r2d2::MapPolarView();
 
     r2d2::DistanceReading dist = r2d2::DistanceReading(5*r2d2::Length::METER,
-                                           r2d2::DistanceReading::ResultType::CHECKED);
+                                    r2d2::DistanceReading::ResultType::CHECKED);
     r2d2::DistanceReading dist2 = r2d2::DistanceReading(10*r2d2::Length::METER,
-                                            r2d2::DistanceReading::ResultType::CHECKED);
+                                    r2d2::DistanceReading::ResultType::CHECKED);
 
     mpv.add_distancereading(make_degree_angle(0), dist);
     mpv.add_distancereading(make_degree_angle(3), dist);
