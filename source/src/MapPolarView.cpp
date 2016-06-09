@@ -135,7 +135,7 @@ namespace r2d2{
         return (count / readings.size()) * 100;
     }
 
-    std::tuple<r2d2::Angle, double> MapPolarView::find_best_match(PolarView &v) {
+    std::tuple<r2d2::Angle, double> MapPolarView::find_best_match(PolarView &v){
         int rotateFactor = 1;
         double scaleFactor = 0.5;
         double preifmatch;
@@ -147,10 +147,7 @@ namespace r2d2{
         std::map<r2d2::Angle, DistanceReading> readingsBackup = readings;
         for (double d = scaleFactor; d <= 2; d += scaleFactor) {
             scale(d);
-            for (int i = 0;
-                 i <
-                 ((readings.size() > 360) ? readings.size() : 360) / rotateFactor;
-                 i++) {
+            for (unsigned int i = 0; i < ((readings.size() > 360) ? readings.size() : 360) / rotateFactor; i++) {
                 preifmatch = match(v);
                 if (preifmatch > bestMatch) {
                     bestRotation = i;
