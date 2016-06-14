@@ -1,4 +1,4 @@
-//! \addtogroup 0012 Polar view
+﻿//! \addtogroup 0012 Polar view
 //! \brief A polar view is a 360 degree view around a point.
 //!
 //! A polar view is what a distance meter sees if it is turned around to
@@ -48,6 +48,8 @@
 
 #ifndef _MAPPOLARVIEW_H
 #define _MAPPOLARVIEW_H
+#define _USE_MATH_DEFINES
+
 
 #include "DistanceReading.hpp"
 #include "Angle.hpp"
@@ -94,14 +96,13 @@ namespace r2d2{
         std::tuple<r2d2::Angle, double> find_best_match(PolarView &v);
 
         // \return All the distance readings in the polarview
-        std::map<r2d2::Angle, DistanceReading> get_distances();
-
+        std::map<r2d2::Angle, DistanceReading> get_distances()const;
 
         //Returns a DistanceReading at a specified angle
         // \return a distance reading at a specified angle,
         // if angle does not exist in the polarview a DistanceReading of 0 and
         // a ResultType of DIDNT_CHECK
-        DistanceReading get_distance(r2d2::Angle angle);
+        DistanceReading get_distance(r2d2::Angle angle)const;
 
         //Multiplies the distances with a given multiplier
         // \param frac The fracture that the PolarView will be scaled by.
