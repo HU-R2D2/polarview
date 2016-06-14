@@ -98,7 +98,6 @@ namespace r2d2{
         // \return All the distance readings in the polarview
         std::map<r2d2::Angle, DistanceReading> get_distances()const;
 
-
         //Returns a DistanceReading at a specified angle
         // \return a distance reading at a specified angle,
         // if angle does not exist in the polarview a DistanceReading of 0 and

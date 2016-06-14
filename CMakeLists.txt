@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.9)
 project(polarview)
 find_package (Threads)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11 -Werror -Wall")
 
 file(GLOB SOURCES "source/include/*.hpp")
 file(GLOB SOURCES_GTEST "../adt/source/include/ADT_Base.hpp"
@@ -20,7 +20,7 @@ include_directories(
   ../deps/gtest-1.7.0/include
   ../deps/gtest-1.7.0)
 
-link_directories(../deps/gtest-1.7.0/src)
+link_directories(../deps/gtest-1.7.0/src ../adt/source/src)
 ADD_LIBRARY(gtest ../deps/gtest-1.7.0/src/gtest-all.cc)
 ADD_LIBRARY(gtest_main ../deps/gtest-1.7.0/src/gtest_main.cc)
 
