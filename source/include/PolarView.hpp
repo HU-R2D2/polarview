@@ -35,10 +35,10 @@ namespace r2d2{
         virtual std::tuple<r2d2::Angle, double> find_best_match(PolarView &v) = 0;
 
         //! Returns all distance readings in the PolarView
-        virtual std::map<r2d2::Angle, DistanceReading> get_distances() = 0;
+        virtual std::map<r2d2::Angle, DistanceReading> get_distances()const = 0;
 
         //! Returns a DistanceReading at a specified angle
-        virtual DistanceReading get_distance(r2d2::Angle angle) = 0;
+        virtual DistanceReading get_distance(r2d2::Angle angle)const = 0;
 
         //! Increase the distance readings in the PolarView with a factor growth
         virtual void scale(double frac) = 0;

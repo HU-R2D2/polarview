@@ -1,4 +1,4 @@
-//! \addtogroup 0012 Polar view
+﻿//! \addtogroup 0012 Polar view
 //! \brief A polar view is a 360 degree view around a point.
 //!
 //! A polar view is what a distance meter sees if it is turned around to
@@ -164,7 +164,7 @@ namespace r2d2{
         return std::tuple<r2d2::Angle, double>(bestAngle, bestScale);
     }
 
-    DistanceReading MapPolarView::get_distance(r2d2::Angle angle) {
+    DistanceReading MapPolarView::get_distance(r2d2::Angle angle)const {
         for (auto i : readings) {
             if (angle_range(i.first, angle)) {
                 return readings.at(i.first);
@@ -174,7 +174,7 @@ namespace r2d2{
                                DistanceReading::ResultType::DIDNT_CHECK);
     }
 
-    std::map<r2d2::Angle, DistanceReading> MapPolarView::get_distances() {
+    std::map<r2d2::Angle, DistanceReading> MapPolarView::get_distances()const {
         return readings;
     }
 
