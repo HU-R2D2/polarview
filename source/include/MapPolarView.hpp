@@ -72,11 +72,11 @@ namespace r2d2{
         // wasn't captured and the 376th is available,
         // it will use that value instead.
         // \return reference to a collapsed polarview.
-        void collapse();
+        void collapse() override;
 
         //Rotates the PolarView with a given angle.
         // \param angle how many radians you want to rotate the PolarView
-        void rotate(r2d2::Angle angle);
+        void rotate(r2d2::Angle angle) override;
 
         //Matches the PolarView with a given PolarView
         //Returns a value that is a perentage that indicates how much
@@ -84,7 +84,7 @@ namespace r2d2{
         // \param PolarView& Reference to a polarview which is to be matched with the
         //current PolarView.
         // \return A double of a percentage of how much of a match the two polarviews are.
-        double match(PolarView &v);
+        double match(PolarView &v) override;
 
         //Finds the best match with the given PolarView.
         //Returns the rotation and the multiplication factor
@@ -93,21 +93,21 @@ namespace r2d2{
         //current Polarview.
         // \return a tuple with the angle and scale you need to make the two polarviews as
         // alike as they can be.
-        std::tuple<r2d2::Angle, double> find_best_match(PolarView &v);
+        std::tuple<r2d2::Angle, double> find_best_match(PolarView &v) override;
 
         // \return All the distance readings in the polarview
-        std::map<r2d2::Angle, DistanceReading> get_distances()const;
+        std::map<r2d2::Angle, DistanceReading> get_distances()const override;
 
         //Returns a DistanceReading at a specified angle
         // \return a distance reading at a specified angle,
         // if angle does not exist in the polarview a DistanceReading of 0 and
         // a ResultType of DIDNT_CHECK
-        DistanceReading get_distance(r2d2::Angle angle)const;
+        DistanceReading get_distance(r2d2::Angle angle)const override;
 
         //Multiplies the distances with a given multiplier
         // \param frac The fracture that the PolarView will be scaled by.
         // \return A PolarView reference which is scaled by the given amount
-        void scale(double frac);
+        void scale(double frac) override;
 
         //  += operator
         //
@@ -131,11 +131,11 @@ namespace r2d2{
         // \param len the length of the distancereading
         // \param type which type the distancereading is.
         void add_distancereading(r2d2::Angle angle, r2d2::Length len,
-                                 DistanceReading::ResultType type);
+                                 DistanceReading::ResultType type) override;
 
         // \param angle The angle of the distancereading
         // \param dist The distance reading that is to be added to the PolarView
-        void add_distancereading(r2d2::Angle angle, DistanceReading dist);
+        void add_distancereading(r2d2::Angle angle, DistanceReading dist) override;
 
     private:
         std::map<r2d2::Angle, DistanceReading> readings;
