@@ -439,9 +439,9 @@ TEST(MapPolarView, find_best_match){
     std::tuple<r2d2::Angle, double> result = mpv.find_best_match(pv);
     std::tuple<r2d2::Angle, double> testResult =
                                    std::make_tuple(make_degree_angle(20), 2.0);
-    int resultAngle = get_degree_angle(get<0>(result));
-    int testResultAngle = get_degree_angle(get<0>(testResult));
+    int resultAngle = get_degree_angle(std::get<0>(result));
+    int testResultAngle = get_degree_angle(std::get<0>(testResult));
 
     EXPECT_EQ(resultAngle, testResultAngle);
-    EXPECT_EQ(get<1>(result), get<1>(testResult));
+    EXPECT_EQ(std::get<1>(result), std::get<1>(testResult));
 }
